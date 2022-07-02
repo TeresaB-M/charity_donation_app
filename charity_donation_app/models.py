@@ -47,7 +47,9 @@ class Donation(models.Model):
     pick_up_comment = models.CharField(max_length=256)
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE, null=True)
 
-
+    @property
+    def main_name(self):
+        return "{} {}".format(self.quantity, self.institution)
 
     def __str__(self):
-        return f'{self.quantity}'
+        return self.main_name

@@ -10,7 +10,7 @@ class LandingPageView(View):
 
     def get(self, request):
         total = Donation.objects.aggregate(Sum('quantity'))
-        counter_institution = Donation.objects.count()
+        counter_institution = Donation.objects.values('institution').distinct().count()
         return render(request, "index.html", context={"total": total,
                                                       "counter_institution": counter_institution})
 
