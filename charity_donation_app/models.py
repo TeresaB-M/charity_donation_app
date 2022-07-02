@@ -46,3 +46,8 @@ class Donation(models.Model):
     pick_up_time = models.TimeField()
     pick_up_comment = models.CharField(max_length=256)
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE, null=True)
+
+
+
+    def __str__(self):
+        return f'{self.quantity}'

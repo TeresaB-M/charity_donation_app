@@ -1,12 +1,18 @@
 from django.shortcuts import render
 from django.views import View
 
+from charity_donation_app.models import Donation
+from django.db.models import Sum
+
 
 class LandingPageView(View):
     """Create a main form and display it on the GET method page"""
 
     def get(self, request):
-        return render(request, "index.html")
+        total = Donation.objects.aggregate(Sum('quantity'))
+        counter_institution = Donation.objects.count()
+        return render(request, "index.html", context={"total": total,
+                                                      "counter_institution": counter_institution})
 
 
 class AddDonationView(View):
