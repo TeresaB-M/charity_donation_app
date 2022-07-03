@@ -89,7 +89,7 @@
               <div class="subtitle">Cel i misja: {{f.description}}.</div>
             </div>
 
-            <div class="col"><div class="text">ubrania, jedzenie, sprzęt AGD, meble, zabawki</div></div>
+            <div class="col"><div class="text">{{ f.categories.institution_categories.name}}</div></div>
           </li>
         {% endfor %}
 
@@ -111,13 +111,34 @@
             <div class="col"><div class="text">ubrania, jedzenie, ciepłe koce</div></div>
           </li-->
         </ul>
-        <!-- Pagination
+
         <ul class="help--slides-pagination">
-          <li><a href="#" class="btn btn--small btn--without-border active" data-page="1">1</a></li>
+            <span class="step-links">
+                {% if institutions.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ institutions.previous_page_number }}">Previous page</a>
+                {% else %}
+                    Previous page
+                {% endif %}
+
+                {% for i in range %}
+
+                    <span class="current">
+                    | <a href="?page={{ i }}">{{ i }}</a>
+                </span>
+
+                {% endfor %}
+
+                {% if institutions.has_next %}
+                    <a href="?page={{ institutions.next_page_number }}">| Next page</a>
+                {% else %}
+                    | Next Page
+                {% endif %}
+            </span>
+          <!--li><a href="#" class="btn btn--small btn--without-border active" data-page="1">1</a></li>
           <li><a href="#" class="btn btn--small btn--without-border" data-page="2">2</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="3">3</a></li>
+          <li><a href="#" class="btn btn--small btn--without-border" data-page="3">3</a></li-->
         </ul>
-        -->
       </div>
 
 
@@ -166,15 +187,32 @@
           </li-->
         </ul>
 
-        <!-- Pagination
+
         <ul class="help--slides-pagination">
-          <li><a href="#" class="btn btn--small btn--without-border active" data-page="1">1</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="2">2</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="3">3</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="4">4</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="5">5</a></li>
+           <span class="step-links">
+                {% if institutions.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ institutions.previous_page_number }}">Previous page</a>
+                {% else %}
+                    Previous page
+                {% endif %}
+
+                {% for i in range %}
+
+                    <span class="current">
+                    | <a href="?page={{ i }}">{{ i }}</a>
+                </span>
+
+                {% endfor %}
+
+                {% if institutions.has_next %}
+                    <a href="?page={{ institutions.next_page_number }}">| Next page</a>
+                {% else %}
+                    | Next Page
+                {% endif %}
+            </span>
         </ul>
-        -->
+
       </div>
 
       <!-- SLIDE 3 -->
@@ -201,12 +239,32 @@
           </li-->
         </ul>
 
-        <!-- Pagination
+
         <ul class="help--slides-pagination">
-          <li><a href="#" class="btn btn--small btn--without-border active" data-page="1">1</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="2">2</a></li>
+          <span class="step-links">
+                {% if institutions.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ institutions.previous_page_number }}">Previous page</a>
+                {% else %}
+                    Previous page
+                {% endif %}
+
+                {% for i in range %}
+
+                    <span class="current">
+                    | <a href="?page={{ i }}">{{ i }}</a>
+                </span>
+
+                {% endfor %}
+
+                {% if institutions.has_next %}
+                    <a href="?page={{ institutions.next_page_number }}">| Next page</a>
+                {% else %}
+                    | Next Page
+                {% endif %}
+            </span>
         </ul>
-        -->
+
       </div>
     </section>
 
