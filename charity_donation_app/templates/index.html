@@ -89,7 +89,9 @@
               <div class="subtitle">Cel i misja: {{f.description}}.</div>
             </div>
 
-            <div class="col"><div class="text">{{ f.name}}</div></div>
+            <div class="col"><div class="text">{% for category in f.categories.all %}
+            {{ category.name }}, {% endfor %}</div></div>
+
           </li>
         {% endfor %}
           </ul>
@@ -128,7 +130,8 @@
               <div class="subtitle">{{o.description}}</div>
             </div>
 
-            <div class="col"><div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div></div>
+            <div class="col"><div class="text">{% for category in o.categories.all %}
+            {{ category.name }}, {% endfor %}</div></div>
           </li>
           {% endfor %}
         </ul>
@@ -164,7 +167,9 @@
               <div class="subtitle">{{l.description}}</div>
             </div>
 
-            <div class="col"><div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div></div>
+            <div class="col"><div class="text">{% for category in l.categories.all %}
+            {{ category.name }}, {% endfor %}</div></div>
+
           </li>
        {% endfor %}
 
