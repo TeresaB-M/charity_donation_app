@@ -40,3 +40,8 @@ class RegisterForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+
+class LogInForm(forms.Form):
+    email = forms.CharField(label="Email")
+    password = forms.CharField(label="Insert password", widget=forms.PasswordInput)
