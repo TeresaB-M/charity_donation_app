@@ -42,6 +42,6 @@ class RegisterForm(forms.ModelForm):
         return user
 
 
-class LogInForm(forms.Form):
-    email = forms.CharField(label="Email")
+class LoginForm(forms.Form):
+    login = forms.CharField(label="Email")
     password = forms.CharField(label="Insert password", widget=forms.PasswordInput)

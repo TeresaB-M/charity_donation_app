@@ -1,9 +1,11 @@
+from django.contrib.auth import authenticate,  login
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
-from .forms import RegisterForm
+from .forms import RegisterForm, LoginForm
+from django.urls import reverse
 
 from charity_donation_app.models import Donation, Institution, Category
 from django.db.models import Sum
@@ -47,8 +49,29 @@ class AddDonationView(View):
 
 
 class LoginView(View):
+    """View created for log in user. This view authenticating and, after that login user."""
+
     def get(self, request):
-        return render(request, "login.html")
+        form = LoginForm()
+        return render(request, "login.html", {"form": form})
+
+    def post(self, request):
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data["login"]
+            password = form.cleaned_data["password"]
+            user = authenticate(username=username, password=password)
+            existing_email = User.objects.filter(email=username)
+            if user is not None:
+                login(request, user)
+                url = request.GET.get('next', '/')
+                return redirect(url)
+            elif not existing_email:
+                return redirect(reverse('register'))
+            else:
+                new_form = LoginForm()
+                return render(request, "login.html", context={"form": new_form,
+                                                              "message": "Podano błędne dane!"})
 
 
 class RegisterView(View):
