@@ -94,35 +94,24 @@
         {% endfor %}
           </ul>
 
- <ul class=help--slides-pagination">
-            <ul class="step-links">
-                {% if fundations.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ fundations.previous_page_number }}">Previous page</a>
-                {% else %}
-                    Previous page
-                {% endif %}
+<!--Pagination-->
+        <ul class="help--slides-pagination">
+            {% if fundations.has_previous %}
+          <li><a href="?page=1" class="btn btn--small btn--without-border">first</a></li>
+          <li><a href="?page={{ fundations.previous_page_number }}" class="btn btn--small btn--without-border">{{ fundations.previous_page_number }}</a></li>
+          {% endif %}
+        <span class="current">
 
-                {% for i in range %}
+             <a href="" class="btn btn--small btn--without-border">{{ fundations.number }}</a>
+        </span>
+             {% if fundations.has_next %}
+            <li><a href="?page={{ fundations.next_page_number }}" class="btn btn--small btn--without-border">{{ fundations.next_page_number }}</a></li>
+            <li><a href="?page={{ fundations.paginator.num_pages }}" class="btn btn--small btn--without-border">last</a></li>
+            {% endif %}
 
-                    <span class="current">
-                    | <a href="?page={{ i }}">{{ i }}</a>
-                </span>
+        </ul>
 
-                {% endfor %}
-
-                {% if fundations.has_next %}
-                    <a href="?page={{ fundations.next_page_number }}">| Next page</a>
-                {% else %}
-                    | Next Page
-                {% endif %}
-            </ul>
-          <!--li><a href="#" class="btn btn--small btn--without-border active" data-page="1">1</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="2">2</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="3">3</a></li-->
- </ul>
- </div>
-
+      </div>
 
 
       <!-- SLIDE 2 -->
@@ -144,33 +133,24 @@
           {% endfor %}
         </ul>
 
-
+<!--Pagination-->
         <ul class="help--slides-pagination">
-           <ul class="step-links">
-                {% if organizations.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ organizations.previous_page_number }}">Previous page</a>
-                {% else %}
-                    Previous page
-                {% endif %}
+            {% if organizations.has_previous %}
+          <li><a href="?page=1" class="btn btn--small btn--without-border">first</a></li>
+          <li><a href="?page={{ organizations.previous_page_number }}" class="btn btn--small btn--without-border">{{ organizations.previous_page_number }}</a></li>
+          {% endif %}
+        <span class="current">
 
-                {% for i in range %}
+             <a href="" class="btn btn--small btn--without-border">{{ organizations.number }}</a>
+        </span>
+             {% if organizations.has_next %}
+            <li><a href="?page={{ organizations.next_page_number }}" class="btn btn--small btn--without-border">{{ organizations.next_page_number }}</a></li>
+            <li><a href="?page={{ organizations.paginator.num_pages }}" class="btn btn--small btn--without-border">last</a></li>
+            {% endif %}
 
-                    <span class="current">
-                    | <a href="?page={{ i }}">{{ i }}</a>
-                </span>
-
-                {% endfor %}
-
-                {% if organizations.has_next %}
-                    <a href="?page={{ organizations.next_page_number }}">| Next page</a>
-                {% else %}
-                    | Next Page
-                {% endif %}
-            </ul>
         </ul>
 
-      </div>
+ </div>
 
       <!-- SLIDE 3 -->
       <div class="help--slides" data-id="3">
@@ -190,32 +170,23 @@
 
         </ul>
 
-       <ul class="helk-slide-pagination">
-          <ul class="step-links">
-                {% if locals.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ locals.previous_page_number }}">Previous page</a>
-                {% else %}
-                    Previous page
-                {% endif %}
+<!--Pagination-->
+         <ul class="help--slides-pagination">
+            {% if locs.has_previous %}
+          <li><a href="?page=1" class="btn btn--small btn--without-border">first</a></li>
+          <li><a href="?page={{ locs.previous_page_number }}" class="btn btn--small btn--without-border">{{ locs.previous_page_number }}</a></li>
+          {% endif %}
 
-                {% for i in range %}
+        <span class="current">
+             <a href="" class="btn btn--small btn--without-border">{{ locs.number }}</a>
+        </span>
+             {% if locs.has_next %}
+            <li><a href="?page={{ locs.next_page_number }}" class="btn btn--small btn--without-border">{{ locs.next_page_number }}</a></li>
+            <li><a href="?page={{ locs.paginator.num_pages }}" class="btn btn--small btn--without-border">last</a></li>
+            {% endif %}
 
-                    <span class="current">
-                    | <a href="?page={{ i }}">{{ i }}</a>
-                </span>
-
-                {% endfor %}
-
-                {% if locals.has_next %}
-                    <a href="?page={{ locals.next_page_number }}">| Next page</a>
-                {% else %}
-                    | Next Page
-                {% endif %}
-          </ul>
-       </ul>
+        </ul>
       </div>
-
-    </section>
+     </section>
 
 {% endblock %}
