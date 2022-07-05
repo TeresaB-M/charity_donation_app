@@ -1,6 +1,9 @@
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from django.views import View
+from .forms import RegisterForm
 
 from charity_donation_app.models import Donation, Institution, Category
 from django.db.models import Sum
@@ -50,7 +53,28 @@ class LoginView(View):
 
 class RegisterView(View):
     def get(self, request):
-        return render(request, "register.html")
+        form = RegisterForm()
+        return render(request, "register.html", {"form": form})
 
     def post(self, request):
-        name = request.POST.get('name')
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            first_name = form.cleaned_data["first_name"]
+            last_name = form.cleaned_data["last_name"]
+            email = form.cleaned_data["email"]
+            password1 = form.cleaned_data["password1"]
+            password2 = form.cleaned_data["password2"]
+            users = User.objects.all()
+            existing = False
+            for us in users:
+                if us.username == email:
+                    existing = True
+            if existing:
+                return HttpResponse("User with that username is just existing")
+            else:
+                if password1 == password2:
+                    user = User.objects.create_user(username=email, email=email,
+                                            first_name=first_name, last_name=last_name,
+                                            password=password1)
+                return redirect('login')
+        return render(request, "login.html", {"form": form})
