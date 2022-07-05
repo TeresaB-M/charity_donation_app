@@ -1,7 +1,7 @@
-from django.contrib.auth import authenticate,  login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import View
 from .forms import RegisterForm, LoginForm
@@ -72,6 +72,13 @@ class LoginView(View):
                 new_form = LoginForm()
                 return render(request, "login.html", context={"form": new_form,
                                                               "message": "Podano błędne dane!"})
+
+
+class LogoutView(View):
+    """ View created to log out user. """
+    def get(self, request):
+        logout(request)
+        return HttpResponseRedirect('/')
 
 
 class RegisterView(View):
