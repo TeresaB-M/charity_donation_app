@@ -22,14 +22,14 @@ class LandingPageView(View):
         organization = Institution.objects.filter(type=2).order_by('name')
         local = Institution.objects.filter(type=3).order_by('name')
 
-        paginator1 = Paginator(fundation, 3)
+        paginator1 = Paginator(fundation, 4)
         page_1 = request.GET.get('page')
 
         fundations = paginator1.get_page(page_1)
-        paginator2 = Paginator(organization, 3)
+        paginator2 = Paginator(organization, 4)
         page_2 = request.GET.get('page')
         organizations = paginator2.get_page(page_2)
-        paginator3 = Paginator(local, 3)
+        paginator3 = Paginator(local, 4)
         page_3 = request.GET.get('page')
         locs = paginator3.get_page(page_3)
         categories = Category.objects.all()

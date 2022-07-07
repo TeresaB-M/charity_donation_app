@@ -82,7 +82,7 @@
       <div class="help--slides active" data-id="1">
         <p>W naszej bazie znajdziesz listę zweryfikowanych Fundacji, z którymi współpracujemy. Możesz sprawdzić czym się zajmują, komu pomagają i czego potrzebują.</p>
 
-        {% for f in fundation %}
+        {% for f in fundations %}
           <ul class="help--slides-items">
           <li>
             <div class="col">
@@ -95,26 +95,28 @@
 
           </li>
         {% endfor %}
-          </ul>
+
 
 <!--Pagination-->
+
         <ul class="help--slides-pagination">
             {% if fundations.has_previous %}
           <li><a href="?page=1" class="btn btn--small btn--without-border">first</a></li>
-          <li><a href="?page={{ fundations.previous_page_number }}" class="btn btn--small btn--without-border">{{ fundations.previous_page_number }}</a></li>
+          <li><a href="?page={{fundations.previous_page_number }}" class="btn btn--small btn--without-border">Previous page</a></li>
           {% endif %}
-        <span class="current">
 
-             <a href="" class="btn btn--small btn--without-border">{{ fundations.number }}</a>
+            <span class="current">
+                <a href="" class="btn btn--small btn--without-border">{{ fundations.number }}</a>
         </span>
+
              {% if fundations.has_next %}
             <li><a href="?page={{ fundations.next_page_number }}" class="btn btn--small btn--without-border">{{ fundations.next_page_number }}</a></li>
             <li><a href="?page={{ fundations.paginator.num_pages }}" class="btn btn--small btn--without-border">last</a></li>
             {% endif %}
-
         </ul>
-
+  </ul>
       </div>
+
 
 
       <!-- SLIDE 2 -->
@@ -123,7 +125,7 @@
           W naszej bazie znajdziesz listę zweryfikowanych Organizacji Pozarządowych,
             z którymi współpracujemy. Możesz sprawdzić czym się zajmują, komu pomagają i czego potrzebują.
         </p>
-          {% for o in organization %}
+          {% for o in organizations %}
         <ul class="help--slides-items">
           <li>
             <div class="col">
@@ -160,7 +162,7 @@
       <div class="help--slides" data-id="3">
         <p>W naszej bazie znajdziesz listę zweryfikowanych Lokalnych zbiórek.
             Możesz sprawdzić na jakie cele były zbiórki, i kto otrzymał pomoc.</p>
-       {% for l in local %}
+       {% for l in locs %}
         <ul class="help--slides-items">
           <li>
             <div class="col">
