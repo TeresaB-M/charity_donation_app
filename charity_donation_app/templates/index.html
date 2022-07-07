@@ -101,21 +101,24 @@
 
         <ul class="help--slides-pagination">
             {% if fundations.has_previous %}
-          <li><a href="?page=1" class="btn btn--small btn--without-border">first</a></li>
-          <li><a href="?page={{fundations.previous_page_number }}" class="btn btn--small btn--without-border">Previous page</a></li>
+          <li><a href="?page=1" class="btn btn--small btn--without-border">&laquo;first</a></li>
+          <li><a href="?page={{fundations.previous_page_1 }}" class="btn btn--small btn--without-border">
+              {{ fundations.previous_page_1 }}</a></li>
           {% endif %}
 
             <span class="current">
-                <a href="" class="btn btn--small btn--without-border">{{ fundations.number }}</a>
+                <a href="" class="btn btn--small btn--without-border">{{ fundations.number }} </a>
         </span>
 
              {% if fundations.has_next %}
-            <li><a href="?page={{ fundations.next_page_number }}" class="btn btn--small btn--without-border">{{ fundations.next_page_number }}</a></li>
-            <li><a href="?page={{ fundations.paginator.num_pages }}" class="btn btn--small btn--without-border">last</a></li>
+            <li><a href="?page={{ fundations.next_page_1 }}" class="btn btn--small btn--without-border">
+                {{ fundations.next_page_1 }}</a></li>
+            <li><a href="?page={{ fundations.paginator1.num_pages }}"
+                   class="btn btn--small btn--without-border">last&raquo;</a></li>
             {% endif %}
         </ul>
-  </ul>
-      </div>
+      </ul>
+   </div>
 
 
 
@@ -142,16 +145,19 @@
 <!--Pagination-->
         <ul class="help--slides-pagination">
             {% if organizations.has_previous %}
-          <li><a href="?page=1" class="btn btn--small btn--without-border">first</a></li>
-          <li><a href="?page={{ organizations.previous_page_number }}" class="btn btn--small btn--without-border">{{ organizations.previous_page_number }}</a></li>
+          <li><a href="?page=1" class="btn btn--small btn--without-border">&laquo;first</a></li>
+          <li><a href="?page={{ organizations.previous_page_2 }}" class="btn btn--small btn--without-border">
+              {{ organizations.previous_page_2 }}</a></li>
           {% endif %}
         <span class="current">
 
              <a href="" class="btn btn--small btn--without-border">{{ organizations.number }}</a>
         </span>
              {% if organizations.has_next %}
-            <li><a href="?page={{ organizations.next_page_number }}" class="btn btn--small btn--without-border">{{ organizations.next_page_number }}</a></li>
-            <li><a href="?page={{ organizations.paginator.num_pages }}" class="btn btn--small btn--without-border">last</a></li>
+            <li><a href="?page={{ organizations.next_page_2 }}" class="btn btn--small btn--without-border">
+                {{ organizations.next_page_2 }}</a></li>
+            <li><a href="?page={{ organizations.paginator2.num_pages }}"
+                   class="btn btn--small btn--without-border">last&raquo;</a></li>
             {% endif %}
 
         </ul>
@@ -182,15 +188,18 @@
          <ul class="help--slides-pagination">
             {% if locs.has_previous %}
           <li><a href="?page=1" class="btn btn--small btn--without-border">first</a></li>
-          <li><a href="?page={{ locs.previous_page_number }}" class="btn btn--small btn--without-border">{{ locs.previous_page_number }}</a></li>
+          <li><a href="?page={{ locs.previous_page_3 }}" class="btn btn--small btn--without-border">
+              {{ locs.previous_page_3 }}</a></li>
           {% endif %}
 
         <span class="current">
              <a href="" class="btn btn--small btn--without-border">{{ locs.number }}</a>
         </span>
              {% if locs.has_next %}
-            <li><a href="?page={{ locs.next_page_number }}" class="btn btn--small btn--without-border">{{ locs.next_page_number }}</a></li>
-            <li><a href="?page={{ locs.paginator.num_pages }}" class="btn btn--small btn--without-border">last</a></li>
+            <li><a href="?page={{ locs.next_page_3 }}" class="btn btn--small btn--without-border">
+                {{ locs.next_page_3 }}</a></li>
+            <li><a href="?page={{ locs.paginator3.num_pages }}"
+                   class="btn btn--small btn--without-border">last</a></li>
             {% endif %}
 
         </ul>
