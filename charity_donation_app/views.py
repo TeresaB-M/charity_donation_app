@@ -23,23 +23,24 @@ class LandingPageView(View):
         organization = Institution.objects.filter(type=2).order_by('name')
         local = Institution.objects.filter(type=3).order_by('name')
 
-        paginator1 = Paginator(fundation, 4)
-        page_1 = request.GET.get('page_1')
+        paginator = Paginator(fundation, 3)
+        page_number = request.GET.get('page')
+        fundations = paginator.get_page(page_number)
 
-        fundations = paginator1.get_page(page_1)
-        paginator2 = Paginator(organization, 4)
-        page_2 = request.GET.get('page_2')
-        organizations = paginator2.get_page(page_2)
-        paginator3 = Paginator(local, 4)
-        page_3 = request.GET.get('page_3')
-        locs = paginator3.get_page(page_3)
+        paginator_organization = Paginator(organization, 4)
+        page_number_organization = request.GET.get('page')
+        organizations = paginator_organization.get_page(page_number_organization)
+
+        paginator_local_collection = Paginator(local, 4)
+        page_local_collection= request.GET.get('page')
+        locs = paginator_local_collection.get_page(page_local_collection)
         categories = Category.objects.all()
-        return render(request, "index.html", context={"total": total,
-                                                      "counter_institution": counter_institution,
-                                                      "fundations": fundations,
-                                                      "organizations": organizations,
-                                                      "locs": locs,
-                                                      "categories": categories})
+        return render(request, 'index.html', context={'total': total,
+                                                      'counter_institution': counter_institution,
+                                                      'fundations': fundations,
+                                                      'organizations': organizations,
+                                                      'locs': locs,
+                                                      'categories': categories,})
 
 
 class AddDonationView(LoginRequiredMixin, View):
