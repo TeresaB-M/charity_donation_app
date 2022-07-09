@@ -19,27 +19,25 @@ class LandingPageView(View):
         total = Donation.objects.aggregate(Sum('quantity'))
         counter_institution = Donation.objects.values('institution').distinct().count()
 
-        fundation = Institution.objects.filter(type=1).order_by('name')
-        organization = Institution.objects.filter(type=2).order_by('name')
-        local = Institution.objects.filter(type=3).order_by('name')
+        items = [Institution.objects.filter(type=1),
+                 Institution.objects.filter(type=2),
+                 Institution.objects.filter(type=3),
+                 ]
 
-        paginator = Paginator(fundation, 3)
-        page_number = request.GET.get('page')
-        fundations = paginator.get_page(page_number)
+        for item in items:
+            if Institution.objects.filter(type=item.first().type): # wybieram po kolei 1, 2, 3
+                item_list = Institution.objects.filter(type=item.first().type).order_by('name') # pierwszy item -> jego typ (1, 2, 3)
+                paginator = Paginator(item_list, 5)
+                page = request.GET.get('page')
+                new_item = paginator.get_page(page)
+                items[items.index(item)] = new_item  # List.index() - zwraca pozycję (nr) poszczególnego elementu
 
-        paginator_organization = Paginator(organization, 4)
-        page_number_organization = request.GET.get('page')
-        organizations = paginator_organization.get_page(page_number_organization)
 
-        paginator_local_collection = Paginator(local, 4)
-        page_local_collection= request.GET.get('page')
-        locs = paginator_local_collection.get_page(page_local_collection)
+
         categories = Category.objects.all()
         return render(request, 'index.html', context={'total': total,
                                                       'counter_institution': counter_institution,
-                                                      'fundations': fundations,
-                                                      'organizations': organizations,
-                                                      'locs': locs,
+                                                      "items": items,
                                                       'categories': categories,})
 
 
