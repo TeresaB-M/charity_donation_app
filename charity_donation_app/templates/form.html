@@ -4,6 +4,7 @@
 {% block content %}
 
 
+
       <div class="slogan container container--90">
         <div class="slogan--item">
           <h1>
@@ -45,148 +46,96 @@
             wiedzieć komu najlepiej je przekazać.
           </p>
           <p data-step="3">
-           Wybierz jedną, do
-            której trafi Twoja przesyłka.
+           Wybierz jedną, do której trafi Twoja przesyłka.
           </p>
           <p data-step="4">Podaj adres oraz termin odbioru rzeczy.</p>
         </div>
       </div>
 
-      <div class="form--steps-container">
+    <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/5</div>
 
         <form action="form-confirmation.html" method="post">
-          <!-- STEP 1: class .active is switching steps -->
-          <div data-step="1" class="active">
-            <h3>Zaznacz co chcesz oddać:</h3>
-            {% for category in categories %}
-                        <div class="form-group form-group--checkbox">
-                            <label>
-                                <input
-                                        type="checkbox"
-                                        name="categories"
-                                        value="{{ category.name }}"
-                                />
-                                <span class="checkbox" id="{{ category.name }}"></span>
-                                <span class="description"
-                                >{{ category.name }}</span
-                                >
-                            </label>
-                        </div>
-                    {% endfor %}
 
-               <!--div class="form-group form-group--checkbox">
-              <label>
-                <input
-                  type="checkbox"
-                  name="categories"
-                  value="clothes-to-use"
-                />
-                <span class="checkbox"></span>
-                <span class="description"
-                  >ubrania, które nadają się do ponownego użycia</span
-                >
-              </label>
-            </div-->
-              <!--div class="form-group form-group--checkbox">
-              <label>
-                <input
-                  type="checkbox"
-                  name="categories"
-                  value="clothes-useless"
-                />
-                <span class="checkbox"></span>
-                <span class="description">ubrania, do wyrzucenia</span>
-              </label>
+            <!-- STEP 1: class .active is switching steps -->
+            {% csrf_token %}
+            <div data-step="1" class="active">
+                <h3>Zaznacz co chcesz oddać:</h3>
+                {% for category in categories %}
+                    <div class="form-group form-group--checkbox">
+                        <label>
+                            <input
+                                    type="checkbox"
+                                    name="categories"
+                                    value="{{category.pk}}"
+                            />
+                            <span class="checkbox"></span>
+                            <span class="description">{{ category.name }}</span>
+                        </label>
+                    </div>
+                {% endfor %}
+
+
+
+                <div class="form-group form-group--buttons">
+                    <button type="button" class="btn next-step">Dalej</button>
+                </div>
             </div>
 
-            <div class="form-group form-group--checkbox">
-              <label>
-                <input type="checkbox" name="categories" value="toys" />
-                <span class="checkbox"></span>
-                <span class="description">zabawki</span>
-              </label>
+            <!-- STEP 2 -->
+            <div data-step="2">
+                <h3>Podaj liczbę 60l worków, w które spakowałaś/eś rzeczy:</h3>
+
+                <div class="form-group form-group--inline">
+                    <label>
+                        Liczba 60l worków:
+                        <input type="number" name="bags" step="1" min="1" />
+                    </label>
+                </div>
+
+                <div class="form-group form-group--buttons">
+                    <button type="button" class="btn prev-step">Wstecz</button>
+                    <button type="button" class="btn next-step">Dalej</button>
+                </div>
             </div>
 
-            <div class="form-group form-group--checkbox">
-              <label>
-                <input type="checkbox" name="categories" value="books" />
-                <span class="checkbox"></span>
-                <span class="description">książki</span>
-              </label>
-            </div>
 
-            <div class="form-group form-group--checkbox">
-              <label>
-                <input type="checkbox" name="categories" value="other" />
-                <span class="checkbox"></span>
-                <span class="description">inne</span>
-              </label>
-            </div-->
 
-            <div class="form-group form-group--buttons">
-              <button type="button" class="btn next-step">Dalej</button>
-            </div>
-          </div>
+            <!-- STEP 3 -->
+            <div data-step="3">
+                <h3>Wybierz organizacje, której chcesz pomóc:</h3>
 
-          <!-- STEP 2 -->
-          <div data-step="2">
-            <h3>Podaj liczbę 60l worków, w które spakowałaś/eś rzeczy:</h3>
+                {% for institution in institutions %}
+                    <div class="form-group form-group--checkbox">
 
-            <div class="form-group form-group--inline">
-              <label>
-                Liczba 60l worków:
-                <input type="number" name="bags" step="1" min="1" />
-              </label>
-            </div>
+                    <label>
+                        <input type="radio" name="institution" value="{{ institution.pk }}"/>
+                        <span class="checkbox radio"></span>
+                        <span class="description">
+                            <div class="title">{{ institution.name }}</div>
+                            <div class="subtitle">Cel i misja: {{ institution.description }}{{ i.categories.all }}</div>
+                </span>
+            <span style="display: none">
+                          <ul>
+                              {% for cat in institution.categories.all %}
+                                  <li id="category">{{ cat }}</li>
+                              {% endfor %}
+                          </ul>
+                      </span>
+                 </label>
+                     </div>
+            {% endfor %}
+
+
+
 
             <div class="form-group form-group--buttons">
               <button type="button" class="btn prev-step">Wstecz</button>
               <button type="button" class="btn next-step">Dalej</button>
             </div>
           </div>
-
-
 
           <!-- STEP 4 -->
-          <div data-step="3">
-            <h3>Wybierz organizacje, której chcesz pomóc:</h3>
-
-            <div class="form-group form-group--checkbox">
-              <label>
-                <input type="radio" name="organization" value="old" />
-                <span class="checkbox radio"></span>
-                <span class="description">
-                  <div class="title">Fundacja “Bez domu”</div>
-                  <div class="subtitle">
-                    Cel i misja: Pomoc dla osób nie posiadających miejsca
-                    zamieszkania
-                  </div>
-                </span>
-              </label>
-            </div>
-
-            <div class="form-group form-group--checkbox">
-              <label>
-                <input type="radio" name="organization" value="old" />
-                <span class="checkbox radio"></span>
-                <span class="description">
-                  <div class="title">Fundacja “Dla dzieci"</div>
-                  <div class="subtitle">
-                    Cel i misja: Pomoc osobom znajdującym się w trudnej sytuacji
-                    życiowej.
-                  </div>
-                </span>
-              </label>
-            </div>
-
-            <div class="form-group form-group--buttons">
-              <button type="button" class="btn prev-step">Wstecz</button>
-              <button type="button" class="btn next-step">Dalej</button>
-            </div>
-          </div>
-
-          <!-- STEP 5 -->
           <div data-step="4">
             <h3>Podaj adres oraz termin odbioru rzecz przez kuriera:</h3>
 
@@ -238,7 +187,7 @@
             </div>
           </div>
 
-          <!-- STEP 6 -->
+          <!-- STEP 5 -->
           <div data-step="5">
             <h3>Podsumowanie Twojej darowizny</h3>
 

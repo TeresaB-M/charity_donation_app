@@ -45,3 +45,5 @@ class RegisterForm(forms.ModelForm):
 class LoginForm(forms.Form):
     login = forms.CharField(label="Email")
     password = forms.CharField(label="Insert password", widget=forms.PasswordInput)
+
+
