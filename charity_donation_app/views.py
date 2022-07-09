@@ -25,20 +25,19 @@ class LandingPageView(View):
                  ]
 
         for item in items:
-            if Institution.objects.filter(type=item.first().type): # wybieram po kolei 1, 2, 3
-                item_list = Institution.objects.filter(type=item.first().type).order_by('name') # pierwszy item -> jego typ (1, 2, 3)
+            if Institution.objects.filter(type=item.first().type):  # wybieram po kolei 1, 2, 3
+                item_list = Institution.objects.filter(type=item.first().type).order_by('name')
+                # pierwszy item -> jego typ (1, 2, 3)
                 paginator = Paginator(item_list, 5)
                 page = request.GET.get('page')
                 new_item = paginator.get_page(page)
                 items[items.index(item)] = new_item  # List.index() - zwraca pozycję (nr) poszczególnego elementu
 
-
-
         categories = Category.objects.all()
         return render(request, 'index.html', context={'total': total,
                                                       'counter_institution': counter_institution,
                                                       "items": items,
-                                                      'categories': categories,})
+                                                      'categories': categories, })
 
 
 class AddDonationView(LoginRequiredMixin, View):
@@ -49,7 +48,7 @@ class AddDonationView(LoginRequiredMixin, View):
         categories = Category.objects.all()
         institutions = Institution.objects.all().order_by('pk')
         return render(request, "form.html", {"categories": categories,
-                                             "institutions": institutions,})
+                                             "institutions": institutions, })
 
 
 class LoginView(View):
@@ -108,7 +107,7 @@ class RegisterView(View):
             else:
                 if password1 == password2:
                     user = User.objects.create_user(username=email, email=email,
-                                            first_name=first_name, last_name=last_name,
-                                            password=password1)
+                                                    first_name=first_name, last_name=last_name,
+                                                    password=password1)
                 return redirect('login')
         return render(request, "login.html", {"form": form})
