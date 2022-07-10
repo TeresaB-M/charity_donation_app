@@ -13,7 +13,7 @@ from django.db.models import Sum
 
 
 class LandingPageView(View):
-    """Create a main form and display it on the GET method page"""
+    """View create a main form and display it on the GET method page"""
 
     def get(self, request):
         total = Donation.objects.aggregate(Sum('quantity'))
@@ -40,6 +40,8 @@ class LandingPageView(View):
 
 
 class AddDonationView(LoginRequiredMixin, View):
+    """View create a donation/add/ and display it on the GET method page"""
+
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
 
@@ -78,12 +80,15 @@ class LoginView(View):
 
 class LogoutView(View):
     """ View created to log out user. """
+
     def get(self, request):
         logout(request)
         return HttpResponseRedirect('/')
 
 
 class RegisterView(View):
+    """ View created to registration user. """
+
     def get(self, request):
         form = RegisterForm()
         return render(request, "register.html", {"form": form})

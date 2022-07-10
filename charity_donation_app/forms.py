@@ -7,6 +7,7 @@ class RegisterForm(forms.ModelForm):
         A form that creates a user, with no privileges, from the given username and
         password.
     """
+
     error_messages = {
         'password_mismatch': "The two password fields didn't match.",
     }
@@ -43,7 +44,7 @@ class RegisterForm(forms.ModelForm):
 
 
 class LoginForm(forms.Form):
+    """ Create login form"""
+
     login = forms.CharField(label="Email")
     password = forms.CharField(label="Insert password", widget=forms.PasswordInput)
-
-

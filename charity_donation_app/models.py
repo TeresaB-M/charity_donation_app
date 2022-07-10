@@ -1,8 +1,9 @@
-#from django.contrib.auth.models import User
 from django.db import models
 
 
 class Category(models.Model):
+    """ Create Model Category """
+
     name = models.CharField(max_length=128)
 
     @property
@@ -14,6 +15,8 @@ class Category(models.Model):
 
 
 class Institution(models.Model):
+    """ Create Model Institution """
+
     TYPE_INSTITUTION = (
         (1, "Fundacja"),
         (2, "Organizacja pozarządowa"),
@@ -33,6 +36,8 @@ class Institution(models.Model):
 
 
 class Donation(models.Model):
+    """ Create Model Donation """
+
     quantity = models.IntegerField()
     categories = models.ManyToManyField(Category)
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
