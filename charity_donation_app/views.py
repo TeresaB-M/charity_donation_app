@@ -25,9 +25,8 @@ class LandingPageView(View):
                  ]
 
         for item in items:
-            if Institution.objects.filter(type=item.first().type):  # wybieram po kolei 1, 2, 3
-                item_list = Institution.objects.filter(type=item.first().type).order_by('name')
-                # pierwszy item -> jego typ (1, 2, 3)
+            if Institution.objects.filter(type=True):
+                item_list = Institution.objects.filter(type=True).order_by('name')
                 paginator = Paginator(item_list, 5)
                 page = request.GET.get('page')
                 new_item = paginator.get_page(page)
