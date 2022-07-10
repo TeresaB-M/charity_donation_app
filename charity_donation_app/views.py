@@ -35,7 +35,7 @@ class LandingPageView(View):
         categories = Category.objects.all()
         return render(request, 'index.html', context={'total': total,
                                                       'counter_institution': counter_institution,
-                                                      "items": items,
+                                                      'items': items,
                                                       'categories': categories, })
 
 

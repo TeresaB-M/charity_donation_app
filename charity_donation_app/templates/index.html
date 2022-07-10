@@ -81,7 +81,7 @@
             </div>
 
             <div class="col"><div class="text">{% for category in i.categories.all %}
-            {{ category.name }}, {% if category != institution.categories.first %}, {% endif %}
+            {{ category.name }}, {% if category != institution.categories.first %} {% endif %}
         {% endfor %}
                 </div>
           </div>
@@ -95,28 +95,23 @@
 
        <ul class="help--slides-pagination">
           {% if items.0.has_previous %}
-                <a href="?page=1#help" class="btn btn--small btn--without-border">1</a>
-              {% if items.0.previous_page_number != 1 %}
-                    <a href="?page={{ items.0.previous_page_number }}#help"
+                <a href="?page=1#help" class="btn btn--small btn--without-border">&laquo; Pierwsza</a>
+                <a href="?page={{items.0.previous_page_number }}#help"
                        class="btn btn--small btn--without-border">
                       {{ items.0.previous_page_number }}</a>
-                {% endif %}
 
-            {% endif %}
+          {% endif %}
 
-            <li class="btn btn--small btn--without-border active">
+          <li class="btn btn--small btn--without-border active">
                 {{ items.0.number }}
-            </li>
+          </li>
 
-            {% if items.0.has_next %}
-                 {% if items.0.next_page_number != items.0.paginator.num_pages %}
-                    <a href="?page={{ items.0.next_page_number }}#help" class="btn btn--small btn--without-border">
-                        {{ items.0.next_page_number }}
-                    </a>
-                {% endif %}
+          {% if items.0.has_next %}
+                <a href="?page={{ items.0.next_page_number }}#help"
+                   class="btn btn--small btn--without-border">Następna</a>
                 <a href="?page={{ items.0.paginator.num_pages }}#help"
-                   class="btn btn--small btn--without-border">{{ items.0.paginator.num_pages }}</a>
-            {% endif %}
+                   class="btn btn--small btn--without-border">Ostatnia &raquo;</a>
+          {% endif %}
         </ul>
       </div>
 
@@ -139,7 +134,7 @@
             <div class="col">
                 <div class="text">
                     {% for category in i.categories.all %}
-            {{ category.name }}{% if category != institution.categories.first %}, {% endif %},
+            {{ category.name }}, {% if category != institution.categories.first %} {% endif %},
                     {% endfor %}</div></div>
           </li>
           {% endfor %}
@@ -148,28 +143,25 @@
 <!--Pagination 2-->
           <ul class="help--slides-pagination">
             {% if items.1.has_previous %}
-                <a href="?page=1#help" class="btn btn--small btn--without-border">1</a>
-                 {% if items.1.previous_page_number != 1 %}
-                    <a href="?page={{ items.1.previous_page_number }}#help" class="btn btn--small btn--without-border">
-                      {{ items.1.previous_page_number }}
-                    </a>
-                 {% endif %}
-                 {% endif %}
+                <a href="?page=1#help" class="btn btn--small btn--without-border">&laquo; Pierwsza</a>
+                <a href="?page={{ items.1.previous_page_number }}#help"
+                       class="btn btn--small btn--without-border">
+                      {{ items.1.previous_page_number }}</a>
 
-            <li class="btn btn--small btn--without-border active">
-                {{ items.1.number }}
-            </li>
+          {% endif %}
 
-            {% if items.1.has_next %}
-                {% if items.1.next_page_number != items.1.paginator.num_pages %}
-                    <a href="?page={{ items.1.next_page_number }}#help" class="btn btn--small btn--without-border">
-                        {{ items.1.next_page_number }}</a>
-                {% endif %}
-                <a href="?page={{ items.1.paginator.num_pages }}#help" class="btn btn--small btn--without-border">
-                    {{ items.1.paginator.num_pages }}</a>
-            {% endif %}
+          <li class="btn btn--small btn--without-border active">
+                {{ items.1.number}}
+          </li>
+
+          {% if items.1.has_next %}
+                <a href="?page={{ items.1.next_page_number }}#help"
+                   class="btn btn--small btn--without-border">Następna</a>
+                <a href="?page={{ items.1.paginator.num_pages }}#help"
+                   class="btn btn--small btn--without-border">Ostatnia &raquo;</a>
+          {% endif %}
         </ul>
-       </div>
+      </div>
 
       <!-- SLIDE 3 -->
       <div class="help--slides" data-id="3">
@@ -184,7 +176,7 @@
             </div>
 
             <div class="col"><div class="text">{% for category in i.categories.all %}
-            {{ category.name }}, {% if category != institution.categories.first %}, {% endif %}
+            {{ category.name }}, {% if category != institution.categories.first %} {% endif %}
             {% endfor %}</div></div>
 
           </li>
@@ -195,28 +187,23 @@
 <!--Pagination 3-->
         <ul class="help--slides-pagination">
           {% if items.2.has_previous %}
-                <a href="?page=1#help" class="btn btn--small btn--without-border">1</a>
-               {% if items.2.previous_page_number != 1 %}
-                    <a href="?page={{ items.2.previous_page_number }}#help" class="btn btn--small btn--without-border">
-                      {{ items.2.previous_page_number }}
-                    </a>
-                {% endif %}
-            {% endif %}
+                <a href="?page=1#help" class="btn btn--small btn--without-border">&laquo; Pierwsza</a>
+                <a href="?page={{ items.2.previous_page_number }}#help"
+                       class="btn btn--small btn--without-border">
+                      {{ items.2.previous_page_number }}</a>
 
-            <li class="btn btn--small btn--without-border active">
+          {% endif %}
+
+          <li class="btn btn--small btn--without-border active">
                 {{ items.2.number }}
-            </li>
+          </li>
 
-            {% if items.2.has_next %}
-                {% if items.2.next_page_number != items.2.paginator.num_pages %}
-                    <a href="?page={{ items.2.next_page_number }}#help" class="btn btn--small btn--without-border">
-                        {{ items.2.next_page_number }}
-                    </a>
-                {% endif %}
-                <a href="?page={{ items.2.paginator.num_pages }}#help" class="btn btn--small btn--without-border">
-                    {{ items.2.paginator.num_pages }}
-                </a>
-            {% endif %}
+          {% if items.2.has_next %}
+                <a href="?page={{ items.2.next_page_number }}#help"
+                   class="btn btn--small btn--without-border">Następna</a>
+                <a href="?page={{ items.2.paginator.num_pages }}#help"
+                   class="btn btn--small btn--without-border">Ostatnia &raquo;</a>
+          {% endif %}
         </ul>
       </div>
      </section>
