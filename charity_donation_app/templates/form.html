@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static%}
 
+
 {% block content %}
 
 
@@ -107,15 +108,15 @@
 
                 {% for institution in institutions %}
                     <div class="form-group form-group--checkbox">
-                    data-categories="{%for category in institution.categories.all%}
-                        {{category.id}},{%endfor%}">
 
                     <label>
-                        <input type="radio" name="institution" value="{{ institution.id }}"/>
+                        <input type="radio" name="institution" value="{{ institution.pk }}"/>
                         <span class="checkbox radio"></span>
                         <span class="description">
                             <div class="title">{{institution.get_type_display}}: “{{institution.name}}"</div>
                             <div class="subtitle">Cel i misja: {{ institution.description }}{{ i.categories.all }}</div>
+                            <div class ="data-categories">{%for category in institution.categories.all%}
+                                {{category.name}},{%endfor%}"</div>
                 </span>
             <span style="display: none">
                           <ul>

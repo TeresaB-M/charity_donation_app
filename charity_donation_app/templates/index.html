@@ -22,7 +22,6 @@
 
     <section id="steps" class="steps">
       <h2>Wystarczą 4 proste kroki</h2>
-
       <div class="steps--container">
         <div class="steps--item">
           <span class="icon icon--hands"></span>
@@ -69,11 +68,12 @@
       </ul>
 
       <!-- SLIDE 1 -->
-      <div class="help--slides active" data-id="1">
-        <p>W naszej bazie znajdziesz listę zweryfikowanych Fundacji, z którymi współpracujemy. Możesz sprawdzić czym się zajmują, komu pomagają i czego potrzebują.</p>
+<div class="help--slides active" data-id="1">
+        <p>W naszej bazie znajdziesz listę zweryfikowanych Fundacji, z którymi współpracujemy.
+            Możesz sprawdzić czym się zajmują, komu pomagają i czego potrzebują.</p>
 
         {% for i in items.0 %}
-          <ul class="help--slides-items">
+        <ul class="help--slides-items">
           <li>
             <div class="col">
               <div class="title">Fundacja {{ i.name }}</div>
@@ -82,24 +82,22 @@
 
             <div class="col"><div class="text">{% for category in i.categories.all %}
             {{ category.name }}, {% if category != institution.categories.first %} {% endif %}
-        {% endfor %}
-                </div>
-          </div>
+        {% endfor %}</div> </div>
+
           </li>
-        {% endfor %}
-        </ul>
+         </ul>
+       {% endfor %}
 
 
 <!-- Pagination 1 -->
 
-
-       <ul class="help--slides-pagination">
+<ul class=help--slides-pagination">
           {% if items.0.has_previous %}
-                <a href="?page=1#help" class="btn btn--small btn--without-border">&laquo; Pierwsza</a>
-                <a href="?page={{items.0.previous_page_number }}#help"
-                       class="btn btn--small btn--without-border">
-                      {{ items.0.previous_page_number }}</a>
-
+              <a class="btn btn--small btn--without-border"
+                     href="?page=1#help" >&laquo; Pierwsza</a>
+              <a class="btn btn--small btn--without-border"
+                     href="?page={{items.0.previous_page_number }}#help">
+              {{ items.0.previous_page_number }}</a>
           {% endif %}
 
           <li class="btn btn--small btn--without-border active">
@@ -107,24 +105,23 @@
           </li>
 
           {% if items.0.has_next %}
-                <a href="?page={{ items.0.next_page_number }}#help"
-                   class="btn btn--small btn--without-border">Następna</a>
-                <a href="?page={{ items.0.paginator.num_pages }}#help"
-                   class="btn btn--small btn--without-border">Ostatnia &raquo;</a>
+                <a class="btn btn--small btn--without-border"
+                            href="?page={{ items.0.next_page_number }}#help">Następna</a>
+                <a class="btn btn--small btn--without-border"
+                   href="?page={{ items.0.paginator.num_pages }}#help">Ostatnia &raquo;</a>
           {% endif %}
         </ul>
-      </div>
+</div>
 
 
       <!-- SLIDE 2 -->
-       <div class="help--slides" data-id="2">
-        <p>
-          W naszej bazie znajdziesz listę zweryfikowanych Organizacji Pozarządowych,
+<div class="help--slides" data-id="2">
+        <p>W naszej bazie znajdziesz listę zweryfikowanych Organizacji Pozarządowych,
             z którymi współpracujemy. Możesz sprawdzić czym się zajmują, komu pomagają i czego potrzebują.
         </p>
-       <ul class="help--slides-items">
+
           {% for i in items.1 %}
-        <ul class="help--slides-items">
+          <ul class="help--slides-items">
           <li>
             <div class="col">
               <div class="title">Organizacja: {{ i.name }}</div>
@@ -134,41 +131,39 @@
             <div class="col">
                 <div class="text">
                     {% for category in i.categories.all %}
-            {{ category.name }}, {% if category != institution.categories.first %} {% endif %},
+            {{ category.name }}, {% if category != institution.categories.first %} {% endif %}
                     {% endfor %}</div></div>
           </li>
-          {% endfor %}
         </ul>
+         {% endfor %}
+
 
 <!--Pagination 2-->
           <ul class="help--slides-pagination">
-            {% if items.1.has_previous %}
-                <a href="?page=1#help" class="btn btn--small btn--without-border">&laquo; Pierwsza</a>
-                <a href="?page={{ items.1.previous_page_number }}#help"
-                       class="btn btn--small btn--without-border">
+          {% if items.1.has_previous %}
+                <a class="btn btn--small btn--without-border" href="?page=1#help" >&laquo; Pierwsza</a>
+                <a class="btn btn--small btn--without-border" href="?page={{ items.1.previous_page_number }}#help">
                       {{ items.1.previous_page_number }}</a>
-
           {% endif %}
 
           <li class="btn btn--small btn--without-border active">
-                {{ items.1.number}}
+                {{ items.1.number }}
           </li>
 
           {% if items.1.has_next %}
-                <a href="?page={{ items.1.next_page_number }}#help"
-                   class="btn btn--small btn--without-border">Następna</a>
-                <a href="?page={{ items.1.paginator.num_pages }}#help"
-                   class="btn btn--small btn--without-border">Ostatnia &raquo;</a>
+                <a class="btn btn--small btn--without-border" href="?page={{ items.1.next_page_number }}#help">Następna</a>
+                <a class="btn btn--small btn--without-border" href="?page={{ items.1.paginator.num_pages }}#help">Ostatnia &raquo;</a>
           {% endif %}
         </ul>
-      </div>
+</div>
 
       <!-- SLIDE 3 -->
-      <div class="help--slides" data-id="3">
+ <div class="help--slides" data-id="3">
         <p>W naszej bazie znajdziesz listę zweryfikowanych Lokalnych zbiórek.
             Możesz sprawdzić na jakie cele były zbiórki, i kto otrzymał pomoc.</p>
-      <ul class="help--slides-items">
+
        {% for i in items.2 %}
+           <ul class="help--slides-items">
           <li>
             <div class="col">
               <div class="title">{{ i.name }}</div>
@@ -178,18 +173,19 @@
             <div class="col"><div class="text">{% for category in i.categories.all %}
             {{ category.name }}, {% if category != institution.categories.first %} {% endif %}
             {% endfor %}</div></div>
-
           </li>
-       {% endfor %}
+            </ul>
 
-        </ul>
+         {% endfor %}
 
 <!--Pagination 3-->
+
         <ul class="help--slides-pagination">
           {% if items.2.has_previous %}
-                <a href="?page=1#help" class="btn btn--small btn--without-border">&laquo; Pierwsza</a>
-                <a href="?page={{ items.2.previous_page_number }}#help"
-                       class="btn btn--small btn--without-border">
+                <a class="btn btn--small btn--without-border"
+                   href="?page=1#help" >&laquo; Pierwsza</a>
+                <a class="btn btn--small btn--without-border"
+                   href="?page={{ items.2.previous_page_number }}#help">
                       {{ items.2.previous_page_number }}</a>
 
           {% endif %}
@@ -199,13 +195,14 @@
           </li>
 
           {% if items.2.has_next %}
-                <a href="?page={{ items.2.next_page_number }}#help"
-                   class="btn btn--small btn--without-border">Następna</a>
-                <a href="?page={{ items.2.paginator.num_pages }}#help"
-                   class="btn btn--small btn--without-border">Ostatnia &raquo;</a>
+                <a class="btn btn--small btn--without-border"
+                   href="?page={{ items.2.next_page_number }}#help">Następna</a>
+                <a class="btn btn--small btn--without-border"
+                   href="?page={{ items.2.paginator.num_pages }}#help">Ostatnia &raquo;</a>
           {% endif %}
         </ul>
-      </div>
+ </div>
+
      </section>
 
-{% endblock %}
+{% endblock content%}

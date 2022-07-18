@@ -29,7 +29,7 @@ class Institution(models.Model):
 
     @property
     def main_name(self):
-        return "{} {}".format(self.name, self.description, self.type, self.categories)
+        return "{} {} {} {}".format(self.name, self.description, self.type, self.categories)
 
     def __str__(self):
         return self.main_name

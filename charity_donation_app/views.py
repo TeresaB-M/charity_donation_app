@@ -25,12 +25,13 @@ class LandingPageView(View):
                  ]
 
         for item in items:
-            if Institution.objects.filter(type=True):
-                item_list = Institution.objects.filter(type=True).order_by('name')
+            if Institution.objects.filter(type=item.first().type):
+                item_list = Institution.objects.filter(type=item.first().type).order_by('name')
                 paginator = Paginator(item_list, 5)
                 page = request.GET.get('page')
                 new_item = paginator.get_page(page)
                 items[items.index(item)] = new_item  # List.index() - zwraca pozycję (nr) poszczególnego elementu
+
 
         categories = Category.objects.all()
         return render(request, 'index.html', context={'total': total,
@@ -47,7 +48,7 @@ class AddDonationView(LoginRequiredMixin, View):
 
     def get(self, request):
         categories = Category.objects.all()
-        institutions = Institution.objects.all().order_by('pk')
+        institutions = Institution.objects.all()
         return render(request, "form.html", {"categories": categories,
                                              "institutions": institutions, })
 
