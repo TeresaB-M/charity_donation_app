@@ -5,7 +5,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import View
-from .forms import RegisterForm, LoginForm
+from .forms import RegisterForm, LoginForm, DonationModelForm
 from django.urls import reverse
 
 from charity_donation_app.models import Donation, Institution, Category
@@ -47,10 +47,27 @@ class AddDonationView(LoginRequiredMixin, View):
     redirect_field_name = 'redirect_to'
 
     def get(self, request):
+        form = DonationModelForm()
         categories = Category.objects.all()
         institutions = Institution.objects.all()
         return render(request, "form.html", {"categories": categories,
-                                             "institutions": institutions, })
+                                             "institutions": institutions,
+                                             "form": form})
+
+    def post(self, request):
+        form = DonationModelForm(request.POST)
+        categories = request.POST['categories'].split(",")
+        institution = Institution.objects.get(pk=request.POST['institution'])
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.save()
+            for category in categories:
+                instance.categories.add(Category.objects.get(name=category))
+                instance.save()
+            instance.institution = institution
+            instance.save()
+            return render(request, 'form-confirmation.html')
+        return redirect('/form/')
 
 
 class LoginView(View):
