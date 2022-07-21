@@ -91,7 +91,7 @@
 
 <!-- Pagination 1 -->
 
-<ul class=help--slides-pagination">
+    <ul class="help--slides-pagination in1">
           {% if items.0.has_previous %}
               <a class="btn btn--small btn--without-border"
                      href="?page=1#help" >&laquo; Pierwsza</a>
@@ -139,7 +139,8 @@
 
 
 <!--Pagination 2-->
-          <ul class="help--slides-pagination">
+
+          <ul class="help--slides-pagination in2">
           {% if items.1.has_previous %}
                 <a class="btn btn--small btn--without-border" href="?page=1#help" >&laquo; Pierwsza</a>
                 <a class="btn btn--small btn--without-border" href="?page={{ items.1.previous_page_number }}#help">
@@ -180,7 +181,7 @@
 
 <!--Pagination 3-->
 
-        <ul class="help--slides-pagination">
+        <ul class="help--slides-pagination in3">
           {% if items.2.has_previous %}
                 <a class="btn btn--small btn--without-border"
                    href="?page=1#help" >&laquo; Pierwsza</a>
