@@ -70,6 +70,11 @@ class AddDonationView(LoginRequiredMixin, View):
         return redirect('/form/')
 
 
+class FormConfirmationView(View):
+    def get(self, request):
+        return render(request, 'form-confirmation.html')
+
+
 class LoginView(View):
     """View created for log in user. This view authenticating and, after that login user."""
 
