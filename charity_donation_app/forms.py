@@ -57,3 +57,19 @@ class DonationModelForm(forms.ModelForm):
         model = Donation
         fields = ['quantity', 'street', 'house_number','phone_number', 'city', 'zip_code', 'pick_up_date', 'pick_up_time',
                   'pick_up_comment']
+
+
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ["first_name", "last_name", "email", "password"]
+        widgets = {
+            "password": forms.PasswordInput(attrs={'placeholder': 'Hasło'})
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(EditProfileForm, self).__init__(*args, **kwargs)
+        self.fields["password"].label = "Aby potwierdzić podaj hasło"
+        self.fields["first_name"].label = "Zmień imię:"
+        self.fields["last_name"].label = "Zmień nazwisko:"
+        self.fields["email"].label = "Zmień email:"

@@ -5,7 +5,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import View
-from .forms import RegisterForm, LoginForm, DonationModelForm
+from .forms import RegisterForm, LoginForm, DonationModelForm, EditProfileForm
 from django.urls import reverse
 
 from charity_donation_app.models import Donation, Institution, Category
@@ -159,3 +159,30 @@ class UserProfileView(LoginRequiredMixin, View):
         donations = Donation.objects.filter(user_id=request.user.id).order_by('is_taken')
         return render(request, 'profile.html', context={"user": request.user,
                                                         "donations": donations})
+
+
+class EditUserProfileView(View):
+    def get(self, request):
+        form = EditProfileForm(initial={"first_name": request.user.first_name,
+                                        "last_name": request.user.last_name,
+                                        "email": request.user.email})
+        return render(request, 'edit_profile.html', context={"form": form})
+
+    def post(self, request):
+        form = EditProfileForm(request.POST)
+        if form.is_valid():
+            user = authenticate(username=request.user.email, password=form.cleaned_data["password"])
+            if user is not None:
+                user.first_name = form.cleaned_data["first_name"]
+                user.last_name = form.cleaned_data["last_name"]
+                user.email = form.cleaned_data["email"]
+                user.save()
+                return redirect(reverse('profile'))
+            else:
+                form = EditProfileForm(initial={"first_name": form.cleaned_data["first_name"],
+                                                "last_name": form.cleaned_data["last_name"],
+                                                "email": form.cleaned_data["email"]})
+                message = "Podano błędne hasło!"
+                return render(request, "edit_profile.html", context={"form": form,
+                                                                     "message": message})
+        return render(request, 'edit_profile.html', context={"form": form})
