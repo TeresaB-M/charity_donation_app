@@ -32,7 +32,6 @@ class LandingPageView(View):
                 new_item = paginator.get_page(page)
                 items[items.index(item)] = new_item  # List.index() - zwraca pozycję (nr) poszczególnego elementu
 
-
         categories = Category.objects.all()
         return render(request, 'index.html', context={'total': total,
                                                       'counter_institution': counter_institution,
@@ -50,24 +49,36 @@ class AddDonationView(LoginRequiredMixin, View):
         form = DonationModelForm()
         categories = Category.objects.all()
         institutions = Institution.objects.all()
+
+        user = request.user
         return render(request, "form.html", {"categories": categories,
                                              "institutions": institutions,
-                                             "form": form})
+                                             "form": form, })
 
     def post(self, request):
         form = DonationModelForm(request.POST)
-        categories = request.POST['categories'].split(",")
-        institution = Institution.objects.get(pk=request.POST['institution'])
+        # categories = request.POST['categories'].split(",")
+        # institution = Institution.objects.get(pk=request.POST['institution'])
         if form.is_valid():
-            instance = form.save(commit=False)
-            instance.save()
-            for category in categories:
-                instance.categories.add(Category.objects.get(name=category))
-                instance.save()
-            instance.institution = institution
-            instance.save()
-            return render(request, 'form-confirmation.html')
-        return redirect('/form/')
+            chosen_categories = request.POST.getlist('categories')
+            categories = Category.objects.filter(id__in=chosen_categories)
+            institution = Institution.objects.get(id=request.POST['institution'])
+            new_donation = Donation.objects.create(quantity=request.POST['quantity'], institution=institution,
+                                                   street=request.POST['street'],
+                                                   house_number=request.POST['house_number'],
+                                                   phone_number=request.POST['phone_number'],
+                                                   city=request.POST['city'], zip_code=request.POST['zip_code'],
+                                                   pick_up_date=request.POST['pick_up_date'],
+                                                   pick_up_time=request.POST['pick_up_time'],
+                                                   pick_up_comment=request.POST['pick_up_comment'], user=request.user)
+            new_donation.categories.set(categories)
+
+            return render(request, 'form-confirmation.html', {'message': 'Dziękujemy za przesłanie formularza. '
+                                                                         'Na maila prześlemy wszelkie '
+                                                                         'informacje o odbiorze.'})
+
+        else:
+            return render(request, 'form-confirmation.html', {'message': 'Coś poszło nie tak... Spróbuj jeszcze raz'})
 
 
 class FormConfirmationView(View):
@@ -138,3 +149,13 @@ class RegisterView(View):
                                                     password=password1)
                 return redirect('login')
         return render(request, "login.html", {"form": form})
+
+
+class UserProfileView(LoginRequiredMixin, View):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+
+    def get(self, request):
+        donations = Donation.objects.filter(user_id=request.user.id).order_by('is_taken')
+        return render(request, 'profile.html', context={"user": request.user,
+                                                        "donations": donations})

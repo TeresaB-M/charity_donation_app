@@ -50,10 +50,11 @@ class Donation(models.Model):
     pick_up_time = models.TimeField()
     pick_up_comment = models.CharField(max_length=256)
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE, null=True)
+    is_taken = models.BooleanField(default=False)
 
     @property
     def main_name(self):
-        return "{} {}".format(self.quantity, self.institution)
+        return "{} {} {}".format(self.quantity, self.institution, self.categories)
 
     def __str__(self):
         return self.main_name

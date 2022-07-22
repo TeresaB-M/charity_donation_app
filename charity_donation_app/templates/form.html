@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 {% load static%}
+{% block header %}
+
+    <header class="header--form-page">
+{% endblock %}
 
 {% block content %}
 
@@ -29,6 +33,7 @@
           </div>
         </div>
       </div>
+    </header>
 
     <section class="form--steps">
       <div class="form--steps-instructions">
@@ -52,7 +57,7 @@
     <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/5</div>
 
-        <form action="form-confirmation.html" method="post">
+        <form action="{% url 'add_donation' %}" method="POST">
          {% csrf_token %}
             <!-- STEP 1: class .active is switching steps -->
             <div data-step="1" class="active">
@@ -61,13 +66,15 @@
                     <div class="form-group form-group--checkbox">
                         <label class="categories">
                             <input type="checkbox" name="categories"
-                                    value="{{category.id}}"/>
+                                    value="{{category.id}}"
+                            class="donate-form-cat-checkbox"/>
                             <span class="checkbox"></span>
                             <span class="description">{{ category.name }}</span>
                         </label>
                     </div>
                 {% endfor %}
-
+{##}
+{#              <input type="hidden" name="chosen--categories"/>#}
 
                 <div class="form-group form-group--buttons">
                     <button type="button" class="btn next-step">Dalej</button>
@@ -126,7 +133,11 @@
               <div class="form-section--column">
                 <h4>Adres odbioru</h4>
                 <div class="form-group form-group--inline">
-                  <label> Ulica <input type="text" name="address" /> </label>
+                  <label> Ulica <input type="text" name="street" /> </label>
+                </div>
+
+               <div class="form-group form-group--inline">
+                  <label> Numer <input type="text" name="house_number" /> </label>
                 </div>
 
                 <div class="form-group form-group--inline">
@@ -177,18 +188,18 @@
             <div class="summary">
               <div class="form-section">
                 <h4>Oddajesz:</h4>
-                <ul>
+                   <ul>
                   <li>
                     <span class="icon icon-bag"></span>
-                    <span class="summary--text"
-                      >4 worki ubrań w dobrym stanie dla dzieci</span
+                    <span class="summary--text bags"
+                      ></span
                     >
                   </li>
 
                   <li>
                     <span class="icon icon-hand"></span>
-                    <span class="summary--text"
-                      >Dla fundacji "Mam marzenie" w Warszawie</span
+                    <span class="summary--text institution"
+                      ></span
                     >
                   </li>
                 </ul>
@@ -198,19 +209,19 @@
                 <div class="form-section--column">
                   <h4>Adres odbioru:</h4>
                   <ul>
-                    <li>Prosta 51</li>
-                    <li>Warszawa</li>
-                    <li>99-098</li>
-                    <li>123 456 789</li>
+                    <li class="address--summary">Prosta 51</li>
+                    <li class="city--summary">Warszawa</li>
+                    <li class="postcode--summary">99-098</li>
+                    <li class="phone--summary">123 456 789</li>
                   </ul>
                 </div>
 
                 <div class="form-section--column">
                   <h4>Termin odbioru:</h4>
                   <ul>
-                    <li>13/12/2018</li>
-                    <li>15:40</li>
-                    <li>Brak uwag</li>
+                    <li class="date--summary">13/12/2018</li>
+                    <li class="time--summary">15:40</li>
+                    <li class="more_info--summary"></li>
                   </ul>
                 </div>
               </div>
