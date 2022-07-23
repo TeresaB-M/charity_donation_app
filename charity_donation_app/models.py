@@ -17,15 +17,19 @@ class Category(models.Model):
 class Institution(models.Model):
     """ Create Model Institution """
 
+    class Meta:
+        verbose_name = 'Instytucja'
+        verbose_name_plural = 'Instytucje'
+
     TYPE_INSTITUTION = (
         (1, "Fundacja"),
         (2, "Organizacja pozarządowa"),
         (3, "Zbiórka lokalna"),
     )
-    name = models.CharField(max_length=128)
-    description = models.CharField(max_length=256)
-    type = models.IntegerField(choices=TYPE_INSTITUTION, default=1)
-    categories = models.ManyToManyField(Category)
+    name = models.CharField(max_length=128, verbose_name='Nazwa')
+    description = models.CharField(max_length=256, verbose_name='Opis')
+    type = models.IntegerField(choices=TYPE_INSTITUTION, default=1, verbose_name='Rodzaj instytucji')
+    categories = models.ManyToManyField(Category, verbose_name='Kategorie')
 
     @property
     def main_name(self):
