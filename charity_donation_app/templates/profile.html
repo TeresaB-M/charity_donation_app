@@ -38,8 +38,8 @@
                 <div class="steps--item">
                     <span class="icon icon--glasses"></span>
                     <h3>Rodzaj rzeczy</h3>
-                 <div class="col">
-                    <p>{% for category in donation.categories.all %}{{ category.name }}{% endfor %}</p>
+                 <div class="col"><div class="text">
+                    <p>{% for category in donation.categories.all %}{{ category}}, {% endfor %}</p>
                 </div> </div>
                 <div class="steps--item">
                     <span class="icon icon--courier"></span>
@@ -49,10 +49,16 @@
                 <div class="steps--item">
                     <span class="icon icon--courier"></span>
                     <h3>Status darowizny</h3>
-                    <p>{% if donation.is_taken == True %} Odebrano<br>{% else %} Nieodebrano<br>{% endif %}<a href="../Donation/{{ donation.id }}/" class="btn">Zmień</a></p>
+
+
+                    <p>{% if donation.is_taken == True %} Odebrano<br>
+                    {% else %} Nieodebrano<br>{% endif %}
+                    <a href="../Donation/{{ donation.id }}/" class="btn">Zmień</a></p>
                 </div>
                 <br>
             {% endfor %}
+                 </div>
+
              </ul>
         </div>
     </section>
