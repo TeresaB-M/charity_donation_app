@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 
 from charity_donation_app.models import Donation
 
@@ -55,8 +56,8 @@ class LoginForm(forms.Form):
 class DonationModelForm(forms.ModelForm):
     class Meta:
         model = Donation
-        fields = ['quantity', 'street', 'house_number','phone_number', 'city', 'zip_code', 'pick_up_date', 'pick_up_time',
-                  'pick_up_comment']
+        fields = ['quantity', 'street', 'house_number', 'phone_number', 'city', 'zip_code', 'pick_up_date',
+                  'pick_up_time', 'pick_up_comment']
 
 
 class EditProfileForm(forms.ModelForm):
@@ -73,3 +74,8 @@ class EditProfileForm(forms.ModelForm):
         self.fields["first_name"].label = "Zmień imię:"
         self.fields["last_name"].label = "Zmień nazwisko:"
         self.fields["email"].label = "Zmień email:"
+
+
+class MyUserCreation(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        fields = ('username', 'first_name', 'last_name')
