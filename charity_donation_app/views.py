@@ -5,11 +5,13 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import View
-from .forms import RegisterForm, LoginForm, DonationModelForm, EditProfileForm
+from .forms import RegisterForm, LoginForm, DonationModelForm, EditProfileForm, MyUserCreation
 from django.urls import reverse
-
+from django.contrib.auth.decorators import login_required
 from charity_donation_app.models import Donation, Institution, Category
 from django.db.models import Sum
+from django.core.mail import send_mail
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class LandingPageView(View):
@@ -47,38 +49,85 @@ class AddDonationView(LoginRequiredMixin, View):
 
     def get(self, request):
         form = DonationModelForm()
-        categories = Category.objects.all()
-        institutions = Institution.objects.all()
+        category = Category.objects.all()
+        institution = Institution.objects.all()
 
-        user = request.user
-        return render(request, "form.html", {"categories": categories,
-                                             "institutions": institutions,
-                                             "form": form, })
+        return render(request, 'form.html', {
+            'category': category,
+            'institution': institution,
+            'form': form,
+        })
 
+
+@login_required(login_url='/login/')
+def get_institution_by_category(request):
+    categories_ids = request.GET.getlist('categories_ids')
+    if categories_ids is not None:
+        institution = Institution.objects.filter(categories__in=categories_ids).distinct()
+    else:
+        institution = Institution.objects.all()
+
+    return render(request, "api_institution.html", {
+        'institution': institution,
+        'categories_ids': categories_ids,
+        'form': MyUserCreation,
+    })
+
+
+class FormSaveView(LoginRequiredMixin, View):
     def post(self, request):
-        form = DonationModelForm(request.POST)
-        # categories = request.POST['categories'].split(",")
-        # institution = Institution.objects.get(pk=request.POST['institution'])
-        if form.is_valid():
-            chosen_categories = request.POST.getlist('categories')
-            categories = Category.objects.filter(id__in=chosen_categories)
-            institution = Institution.objects.get(id=request.POST['institution'])
-            new_donation = Donation.objects.create(quantity=request.POST['quantity'], institution=institution,
-                                                   street=request.POST['street'],
-                                                   house_number=request.POST['house_number'],
-                                                   phone_number=request.POST['phone_number'],
-                                                   city=request.POST['city'], zip_code=request.POST['zip_code'],
-                                                   pick_up_date=request.POST['pick_up_date'],
-                                                   pick_up_time=request.POST['pick_up_time'],
-                                                   pick_up_comment=request.POST['pick_up_comment'], user=request.user)
-            new_donation.categories.set(categories)
-
-            return render(request, 'form-confirmation.html', {'message': 'Dziękujemy za przesłanie formularza. '
-                                                                         'Na maila prześlemy wszelkie '
-                                                                         'informacje o odbiorze.'})
-
+        categories = request.POST.get('categories')
+        quantity = request.POST.get('bags')
+        institution = request.POST.get('organization')
+        try:
+            organization = Institution.objects.get(id=institution)
+            category = Category.objects.get(id=categories)
+        except ObjectDoesNotExist:
+            organization = None
+            category = None
         else:
-            return render(request, 'form-confirmation.html', {'message': 'Coś poszło nie tak... Spróbuj jeszcze raz'})
+            street = request.POST.get('street')
+            house_number = request.POST.get('house_number')
+            city = request.POST.get('city')
+            post = request.POST.get('postcode')
+            phone = request.POST.get('phone')
+            data = request.POST.get('data')
+            time = request.POST.get('time')
+            comments = request.POST.get('more_info')
+            user = request.user.id
+            email = request.user.email
+            donation = Donation.objects.create(
+                quantity=quantity,
+                institution_id=institution,
+                street=street,
+                house_number=house_number,
+                city=city,
+                zip_code=post,
+                phone_number=phone,
+                pick_up_date=data,
+                pick_up_time=time,
+                pick_up_comment=comments,
+                user_id=user,
+            )
+            donation.categories.set(categories)
+            donation.save()
+
+            return render(request, 'form-save.html', {
+                'quantity': quantity,
+                'institution': institution,
+                'street': street,
+                'house_number': house_number,
+                'city': city,
+                'post': post,
+                'phone': phone,
+                'data': data,
+                'time': time,
+                'comments': comments,
+                'organization': organization,
+                'category': category,
+            })
+
+        return redirect('/form-confirmation/')
 
 
 class FormConfirmationView(View):
@@ -158,7 +207,7 @@ class UserProfileView(LoginRequiredMixin, View):
     def get(self, request):
         donations = Donation.objects.filter(user_id=request.user.id).order_by('is_taken')
         return render(request, 'profile.html', context={"user": request.user,
-                                                        "donations": donations})
+                                                        "donations": donations, })
 
 
 class EditUserProfileView(View):

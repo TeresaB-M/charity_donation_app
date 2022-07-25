@@ -1,13 +1,9 @@
 {% extends 'base.html' %}
 {% load static%}
-{% block header %}
-
-    <header class="header--form-page">
-{% endblock %}
 
 {% block content %}
-
-      <div class="slogan container container--90">
+    <header id="add-donation" class="header--form-page">
+        <div class="slogan container container--90">
         <div class="slogan--item">
           <h1>
             Oddaj rzeczy, których już nie chcesz<br />
@@ -35,7 +31,8 @@
       </div>
     </header>
 
-    <section class="form--steps">
+
+    <section id="addDonation" class="form--steps">
       <div class="form--steps-instructions">
         <div class="form--steps-container">
           <h3>Ważne!</h3>
@@ -48,76 +45,74 @@
             wiedzieć komu najlepiej je przekazać.
           </p>
           <p data-step="3">
-           Wybierz jedną, do której trafi Twoja przesyłka.
+           Wybierz jedną, do
+            której trafi Twoja przesyłka.
           </p>
           <p data-step="4">Podaj adres oraz termin odbioru rzeczy.</p>
         </div>
       </div>
 
-    <div class="form--steps-container">
+      <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/5</div>
+        <form action="{% url 'form-save' %}#addDonation" method="post" >
+          <!-- STEP 1: class .active is switching steps -->
+            {% csrf_token %}
+          <div data-step="1" class="active" >
+            <h3>Zaznacz co chcesz oddać:</h3>
+            {% for cat in category %}
+            <div class="form-group form-group--checkbox" >
+              <label>
+                <input
+                  type="checkbox"
+                  name="categories"
+                  value="{{ cat.id }}"
+                  />
+                <span class="checkbox"></span>
+                <span class="description">{{cat}}</span>
+              </label>
+            </div>
+            {% endfor %}
 
-        <form action="{% url 'add_donation' %}" method="POST">
-         {% csrf_token %}
-            <!-- STEP 1: class .active is switching steps -->
-            <div data-step="1" class="active">
-                <h3>Zaznacz co chcesz oddać:</h3>
-                {% for category in categories %}
-                    <div class="form-group form-group--checkbox">
-                        <label class="categories">
-                            <input type="checkbox" name="categories"
-                                    value="{{category.id}}"
-                            class="donate-form-cat-checkbox"/>
-                            <span class="checkbox"></span>
-                            <span class="description">{{ category.name }}</span>
-                        </label>
-                    </div>
+            <div class="form-group form-group--buttons">
+              <button type="button" class="btn next-step" id="session-sender">Dalej</button>
+            </div>
+          </div>
+          <!-- STEP 2 -->
+          <div data-step="2">
+            <h3>Podaj liczbę 60l worków, w które spakowałeś/aś rzeczy:</h3>
+
+            <div class="form-group form-group--inline">
+              <label>
+                Liczba 60l worków:
+                  <input type="number" name="bags" step="1" min="1" />
+              </label>
+            </div>
+
+            <div class="form-group form-group--buttons">
+              <button type="button" class="btn prev-step">Wstecz</button>
+              <button type="button" class="btn next-step">Dalej</button>
+            </div>
+          </div>
+
+
+
+          <!-- STEP 3 -->
+          <div data-step="3">
+            <h3>Wybierz organizacje, której chcesz pomóc:</h3>
+              <div id="institution">
+                {% for object in institution %}
+                <div class="form-group form-group--checkbox">
+                  <label>
+                    <input type="radio" name="organization" value="{{ object.id }}"/>
+                      <span class="checkbox radio"></span>
+                      <span class="description">
+                        <div class="title">{{ object.name }}</div>
+                        <div class="subtitle">{{ object.description }}</div>
+                      </span>
+                  </label>
+                </div>
                 {% endfor %}
-{##}
-{#              <input type="hidden" name="chosen--categories"/>#}
-
-                <div class="form-group form-group--buttons">
-                    <button type="button" class="btn next-step">Dalej</button>
-                </div>
             </div>
-
-            <!-- STEP 2 -->
-            <div data-step="2">
-                <h3>Podaj liczbę 60l worków, w które spakowałaś/eś rzeczy:</h3>
-
-                <div class="form-group form-group--inline">
-                    <label>
-                        Liczba 60l worków:
-                        <input type="number" name="bags" step="1" min="1" />
-                    </label>
-                </div>
-
-                <div class="form-group form-group--buttons">
-                    <button type="button" class="btn prev-step">Wstecz</button>
-                    <button type="button" class="btn next-step">Dalej</button>
-                </div>
-            </div>
-
-
-
-            <!--STEP 3 -->
-            <div data-step="3">
-                <h3>Wybierz organizacje, której chcesz pomóc:</h3>
-
-                {% for institution in institutions %}
-                    <div class="form-group form-group--checkbox">
-                    <label>
-                        <input type="radio" name="institution" value="{{ institution.id }}"/>
-                        <span class="checkbox radio"></span>
-                        <span class="description">
-                            <div class="title">{{institution.name}}</div>
-                            <div class="subtitle">
-                                Cel i misja: {{ institution.description }}</div>
-                        </span>
-                    </label>
-                    </div>
-                 {% endfor %}
-
 
             <div class="form-group form-group--buttons">
               <button type="button" class="btn prev-step">Wstecz</button>
@@ -132,13 +127,15 @@
             <div class="form-section form-section--columns">
               <div class="form-section--column">
                 <h4>Adres odbioru</h4>
+
                 <div class="form-group form-group--inline">
-                  <label> Ulica <input type="text" name="street" /> </label>
+                  <label> Ulica <input type="text" name="street"/></label>
                 </div>
 
                <div class="form-group form-group--inline">
-                  <label> Numer <input type="text" name="house_number" /> </label>
+                  <label> Numer <input type="text" name="house_number"/></label>
                 </div>
+
 
                 <div class="form-group form-group--inline">
                   <label> Miasto <input type="text" name="city" /> </label>
@@ -152,7 +149,7 @@
 
                 <div class="form-group form-group--inline">
                   <label>
-                    Numer telefonu <input type="phone" name="phone" />
+                    Numer telefonu <input type="text" name="phone" />
                   </label>
                 </div>
               </div>
@@ -164,76 +161,25 @@
                 </div>
 
                 <div class="form-group form-group--inline">
-                  <label> Godzina <input type="time" name="time" /> </label>
+                  <label> Godzina <input type="time" name="time", value="08:00"
+                                         id="time-package"/> </label>
                 </div>
 
                 <div class="form-group form-group--inline">
                   <label>
                     Uwagi dla kuriera
-                    <textarea name="more_info" rows="5"></textarea>
+                    <textarea name="more_info" rows="5">Brak uwag</textarea>
                   </label>
                 </div>
               </div>
             </div>
             <div class="form-group form-group--buttons">
               <button type="button" class="btn prev-step">Wstecz</button>
-              <button type="button" class="btn next-step">Dalej</button>
+              <button type="submit" class="btn">Dalej</button>
             </div>
           </div>
 
-          <!-- STEP 5 -->
-          <div data-step="5">
-            <h3>Podsumowanie Twojej darowizny</h3>
-
-            <div class="summary">
-              <div class="form-section">
-                <h4>Oddajesz:</h4>
-                   <ul>
-                  <li>
-                    <span class="icon icon-bag"></span>
-                    <span class="summary--text bags"
-                      ></span
-                    >
-                  </li>
-
-                  <li>
-                    <span class="icon icon-hand"></span>
-                    <span class="summary--text institution"
-                      ></span
-                    >
-                  </li>
-                </ul>
-              </div>
-
-              <div class="form-section form-section--columns">
-                <div class="form-section--column">
-                  <h4>Adres odbioru:</h4>
-                  <ul>
-                    <li class="address--summary">Prosta 51</li>
-                    <li class="city--summary">Warszawa</li>
-                    <li class="postcode--summary">99-098</li>
-                    <li class="phone--summary">123 456 789</li>
-                  </ul>
-                </div>
-
-                <div class="form-section--column">
-                  <h4>Termin odbioru:</h4>
-                  <ul>
-                    <li class="date--summary">13/12/2018</li>
-                    <li class="time--summary">15:40</li>
-                    <li class="more_info--summary"></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group form-group--buttons">
-              <button type="button" class="btn prev-step">Wstecz</button>
-              <button type="submit" class="btn">Potwierdzam</button>
-            </div>
-          </div>
         </form>
-      </div>
+          </div>
     </section>
-
 {% endblock %}

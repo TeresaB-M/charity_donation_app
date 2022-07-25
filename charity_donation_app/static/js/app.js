@@ -244,79 +244,64 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
       // TODO: get data from inputs and show them in summary
-    this.$categories = document.querySelectorAll('input[name="categories"]:checked');
-      this.$categoriesList = [];
-      for (let i = 0; i<this.$categories.length; i++){
-        this.$categoriesList.push(this.$categories[i].value);
-      }
-      this.$quantity = document.querySelector('input[name="quantity"]').value;
-      this.$institution = document.querySelector('input[name="institution"]:checked').value;
-      this.$street = document.querySelector('input[name="street"]').value;
-      this.$house_number = document.querySelector('input[name="house_number"]').value;
-      this.$city = document.querySelector('input[name="city"]').value;
-      this.$zip_code = document.querySelector('input[name="zip_code"]').value;
-      this.$phone_number = document.querySelector('input[name="phone_number"]').value;
-      this.$pick_up_date = document.querySelector('input[name="pick_up_date"]').value;
-      this.$pick_up_time = document.querySelector('input[name="pick_up_time"]').value;
-      this.$pick_up_comment = document.querySelector('textarea[name="pick_up_comment"]').value;
-
-      this.$form.querySelectorAll('.summary--text')[0].innerText = this.$quantity;
-      this.$form.querySelectorAll('.summary--text')[1].innerText = this.$institution;
-      this.$li = this.$form.querySelectorAll(".form-section--column li");
-      this.$li[0].innerText = this.$street;
-      this.$li[1].innerText = this.$house_number;
-      this.$li[2].innerText = this.$city;
-      this.$li[3].innerText = this.$zip_code;
-      this.$li[4].innerText = this.$phone_number;
-      this.$li[5].innerText = this.$pick_up_date;
-      this.$li[6].innerText = this.$pick_up_time;
-      this.$li[7].innerText = this.$pick_up_comment;
     }
-
 
     /**
      * Submit form
      *
      * TODO: validation, send data to server
      */
-  submit(e) {
-      e.preventDefault();
-      this.currentStep++;
-      this.updateForm();
-      this.$formData = new FormData();
-      this.$formData.append('categories', this.$categoriesList);
-      this.$formData.append('quantity', this.$quantity);
-      this.$formData.append('institution', this.$institution);
-      this.$formData.append('street', this.$street);
-      this.$formData.append('house_number', this.$house_number);
-      this.$formData.append('city', this.$city);
-      this.$formData.append('zip_code', this.$zip_code);
-      this.$formData.append('phone_number', this.$phone_number);
-      this.$formData.append('pick_up_date', this.$pick_up_date);
-      this.$formData.append('pick_up_time', this.$pick_up_time);
-      this.$formData.append('pick_up_comment', this.$pick_up_comment);
-      this.$csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
-      fetch("http://127.0.0.1:8000/form/",
-    {
-        body: this.$formData,
-        method: "POST",
-        headers: {
-            'X-CSRFToken': this.$csrfToken
-        }
-    })
-//    .then(response => response.json())
-    .then(result => {
-        console.log('Success:', result)
-        window.location.href = "http://127.0.0.1:8000/form/confirmation/";
-    })
-    .catch(error => {
-        console.log('Error:', error);
-    });
-    }
+    // submit(e) {
+    //   e.preventDefault();
+    //   this.currentStep++;
+    //   this.updateForm();
+    // }
   }
   const form = document.querySelector(".form--steps");
   if (form !== null) {
     new FormSteps(form);
   }
+
+  // let pick_up_button = document.querySelectorAll("#pick_up");
+  // console.log(pick_up_button)
+  // pick_up_button.forEach(pick_up => {
+  //   pick_up.addEventListener('click', () => pick_up.classList.toggle("active"))
+  // })
+
+
+  let cbox = document.querySelectorAll(".box");
+  cbox.forEach(box => {
+    box.addEventListener('click', () => box.classList.toggle("red"));
+});
+
+
+
+});
+
+function show_id(event) {
+
+  let ids = get_checked_checkboxes();
+  let params = new URLSearchParams();
+  ids.forEach(id => params.append('categories_ids', id))
+  let address = '/get_institution_by_category?' + params.toString();
+  // window.history.replaceState(null, null, address)
+  fetch(address)
+      .then(response => response.text())
+      .then(data => document.getElementById('institution').innerHTML = data);
+}
+
+function get_checked_checkboxes(){
+
+  const marketCheckbox = document.querySelectorAll('input[type="checkbox"]:checked');
+  let ids = [];
+  marketCheckbox.forEach(box => ids.push(box.value));
+  return ids;
+}
+
+
+$( document ).ready(function (){
+  let li_buttons = $('.form-group--checkbox');
+  // let li_buttons = $('.form--steps-container');
+  li_buttons.click(show_id);
 
 });
