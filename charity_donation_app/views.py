@@ -19,6 +19,7 @@ class LandingPageView(View):
     def get(self, request):
         total = Donation.objects.aggregate(Sum('quantity'))
         counter_institution = Donation.objects.values('institution').distinct().count()
+        categories = Category.objects.all()
 
         items = [Institution.objects.filter(type=1),
                  Institution.objects.filter(type=2),
@@ -33,7 +34,6 @@ class LandingPageView(View):
                 new_item = paginator.get_page(page)
                 items[items.index(item)] = new_item  # List.index() - zwraca pozycję (nr) poszczególnego elementu
 
-        categories = Category.objects.all()
         return render(request, 'index.html', context={'total': total,
                                                       'counter_institution': counter_institution,
                                                       'items': items,
