@@ -10,7 +10,6 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from charity_donation_app.models import Donation, Institution, Category
 from django.db.models import Sum
-from django.core.mail import send_mail
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -61,20 +60,22 @@ class AddDonationView(LoginRequiredMixin, View):
 
 @login_required(login_url='/login/')
 def get_institution_by_category(request):
-    categories_ids = request.GET.getlist('categories_ids')
-    if categories_ids is not None:
-        institution = Institution.objects.filter(categories__in=categories_ids).distinct()
+    cat_id = request.GET.getlist('cat_id')
+    if cat_id is not None:
+        categories = Category.objects.filter(pk__in=cat_id)
+        print(categories)
+        institutions = Institution.objects.filter(categories__in=cat_id).distinct()
+        print(institutions)
     else:
-        institution = Institution.objects.all()
+        institutions = Institution.objects.all()
 
-    return render(request, "api_institution.html", {
-        'institution': institution,
-        'categories_ids': categories_ids,
-        'form': MyUserCreation,
-    })
+    return render(request, "api_institution.html", {'institutions': institutions,
+                                                    'cat_id': cat_id,
+                                                    'form': MyUserCreation, })
 
 
 class FormSaveView(LoginRequiredMixin, View):
+
     def post(self, request):
         categories = request.POST.get('categories')
         quantity = request.POST.get('bags')
@@ -96,36 +97,32 @@ class FormSaveView(LoginRequiredMixin, View):
             comments = request.POST.get('more_info')
             user = request.user.id
             email = request.user.email
-            donation = Donation.objects.create(
-                quantity=quantity,
-                institution_id=institution,
-                street=street,
-                house_number=house_number,
-                city=city,
-                zip_code=post,
-                phone_number=phone,
-                pick_up_date=data,
-                pick_up_time=time,
-                pick_up_comment=comments,
-                user_id=user,
-            )
+            donation = Donation.objects.create(quantity=quantity,
+                                               institution_id=institution,
+                                               street=street,
+                                               house_number=house_number,
+                                               city=city,
+                                               zip_code=post,
+                                               phone_number=phone,
+                                               pick_up_date=data,
+                                               pick_up_time=time,
+                                               pick_up_comment=comments,
+                                               user_id=user,
+                                               )
             donation.categories.set(categories)
             donation.save()
-
-            return render(request, 'form-save.html', {
-                'quantity': quantity,
-                'institution': institution,
-                'street': street,
-                'house_number': house_number,
-                'city': city,
-                'post': post,
-                'phone': phone,
-                'data': data,
-                'time': time,
-                'comments': comments,
-                'organization': organization,
-                'category': category,
-            })
+            return render(request, 'form-save.html', {'quantity': quantity,
+                                                      'institution': institution,
+                                                      'street': street,
+                                                      'house_number': house_number,
+                                                      'city': city,
+                                                      'post': post,
+                                                      'phone': phone,
+                                                      'data': data,
+                                                      'time': time,
+                                                      'comments': comments,
+                                                      'organization': organization,
+                                                      'category': category, })
 
         return redirect('/form-confirmation/')
 

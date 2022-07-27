@@ -2,6 +2,16 @@ document.addEventListener("DOMContentLoaded", function() {
   /**
    * HomePage - Help section
    */
+
+   function show_organization(ids) {
+        let address = '/get_institution_by_category/';
+        let data2 = {'cat_id':ids};
+        $.ajax(address, {data: data2, traditional:true}).success( function (data, status) {
+        $('#institution').html(data);
+        });
+
+}
+
   class Help {
     constructor($el) {
       this.$el = $el;
@@ -230,7 +240,17 @@ document.addEventListener("DOMContentLoaded", function() {
     updateForm() {
       this.$step.innerText = this.currentStep;
 
+
       // TODO: Validation
+
+      if (this.currentStep == 3){
+        let ids = [];
+        $('input[name="categories"]:checked').each(function() {
+            ids.push(this.value);
+      })
+        // console.log(ids)
+        show_organization(ids)
+      }
 
       this.slides.forEach(slide => {
         slide.classList.remove("active");
@@ -262,12 +282,6 @@ document.addEventListener("DOMContentLoaded", function() {
     new FormSteps(form);
   }
 
-  // let pick_up_button = document.querySelectorAll("#pick_up");
-  // console.log(pick_up_button)
-  // pick_up_button.forEach(pick_up => {
-  //   pick_up.addEventListener('click', () => pick_up.classList.toggle("active"))
-  // })
-
 
   let cbox = document.querySelectorAll(".box");
   cbox.forEach(box => {
@@ -278,30 +292,4 @@ document.addEventListener("DOMContentLoaded", function() {
 
 });
 
-function show_id(event) {
 
-  let ids = get_checked_checkboxes();
-  let params = new URLSearchParams();
-  ids.forEach(id => params.append('categories_ids', id))
-  let address = '/get_institution_by_category?' + params.toString();
-  // window.history.replaceState(null, null, address)
-  fetch(address)
-      .then(response => response.text())
-      .then(data => document.getElementById('institution').innerHTML = data);
-}
-
-function get_checked_checkboxes(){
-
-  const marketCheckbox = document.querySelectorAll('input[type="checkbox"]:checked');
-  let ids = [];
-  marketCheckbox.forEach(box => ids.push(box.value));
-  return ids;
-}
-
-
-$( document ).ready(function (){
-  let li_buttons = $('.form-group--checkbox');
-  // let li_buttons = $('.form--steps-container');
-  li_buttons.click(show_id);
-
-});

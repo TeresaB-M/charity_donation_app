@@ -45,8 +45,7 @@
             wiedzieć komu najlepiej je przekazać.
           </p>
           <p data-step="3">
-           Wybierz jedną, do
-            której trafi Twoja przesyłka.
+           Wybierz jedną, do której trafi Twoja przesyłka.
           </p>
           <p data-step="4">Podaj adres oraz termin odbioru rzeczy.</p>
         </div>
@@ -54,21 +53,21 @@
 
       <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/5</div>
-        <form action="{% url 'form-save' %}#addDonation" method="post" >
+        <form action="{% url 'form-save' %}#addDonation" method="post">
           <!-- STEP 1: class .active is switching steps -->
-            {% csrf_token %}
-          <div data-step="1" class="active" >
+             {% csrf_token %}
+          <div data-step="1" class="active">
             <h3>Zaznacz co chcesz oddać:</h3>
             {% for cat in category %}
-            <div class="form-group form-group--checkbox" >
+            <div class="form-group form-group--checkbox">
               <label>
                 <input
                   type="checkbox"
                   name="categories"
-                  value="{{ cat.id }}"
+                  value="{{ cat.pk }}"
                   />
                 <span class="checkbox"></span>
-                <span class="description">{{cat}}</span>
+                <span class="description">{{cat.name}}</span>
               </label>
             </div>
             {% endfor %}
@@ -77,9 +76,11 @@
               <button type="button" class="btn next-step" id="session-sender">Dalej</button>
             </div>
           </div>
+
+
           <!-- STEP 2 -->
           <div data-step="2">
-            <h3>Podaj liczbę 60l worków, w które spakowałeś/aś rzeczy:</h3>
+            <h3>Podaj liczbę 60l worków/pudełek, w które spakowałaś/eś rzeczy:</h3>
 
             <div class="form-group form-group--inline">
               <label>
@@ -97,28 +98,18 @@
 
 
           <!-- STEP 3 -->
-          <div data-step="3">
+        <div data-step="3">
             <h3>Wybierz organizacje, której chcesz pomóc:</h3>
-              <div id="institution">
-                {% for object in institution %}
-                <div class="form-group form-group--checkbox">
-                  <label>
-                    <input type="radio" name="organization" value="{{ object.id }}"/>
-                      <span class="checkbox radio"></span>
-                      <span class="description">
-                        <div class="title">{{ object.name }}</div>
-                        <div class="subtitle">{{ object.description }}</div>
-                      </span>
-                  </label>
-                </div>
-                {% endfor %}
-            </div>
+            <div id="institution"> </div>
 
-            <div class="form-group form-group--buttons">
+
+
+        <div class="form-group form-group--buttons">
               <button type="button" class="btn prev-step">Wstecz</button>
               <button type="button" class="btn next-step">Dalej</button>
             </div>
           </div>
+
 
           <!-- STEP 4 -->
           <div data-step="4">
@@ -161,7 +152,7 @@
                 </div>
 
                 <div class="form-group form-group--inline">
-                  <label> Godzina <input type="time" name="time", value="08:00"
+                  <label> Godzina <input type="time" name="time" value="08:00"
                                          id="time-package"/> </label>
                 </div>
 
