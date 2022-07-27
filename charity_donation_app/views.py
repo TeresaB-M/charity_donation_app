@@ -5,7 +5,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import View
-from .forms import RegisterForm, LoginForm, DonationModelForm, EditProfileForm, MyUserCreation
+from .forms import RegisterForm, LoginForm, DonationModelForm, EditProfileForm, MyUserCreation, EditDonationForm
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from charity_donation_app.models import Donation, Institution, Category
@@ -63,9 +63,7 @@ def get_institution_by_category(request):
     cat_id = request.GET.getlist('cat_id')
     if cat_id is not None:
         categories = Category.objects.filter(pk__in=cat_id)
-        print(categories)
         institutions = Institution.objects.filter(categories__in=cat_id).distinct()
-        print(institutions)
     else:
         institutions = Institution.objects.all()
 
@@ -232,3 +230,21 @@ class EditUserProfileView(View):
                 return render(request, "edit_profile.html", context={"form": form,
                                                                      "message": message})
         return render(request, 'edit_profile.html', context={"form": form})
+
+
+class EditDonation(View):
+    def get(self, request, donation_id):
+        donation = Donation.objects.get(pk=donation_id)
+        form = EditDonationForm(instance=donation)
+        return render(request, 'edit_donation.html', {'form': form})
+
+    def post(self, request, donation_id):
+        donation = Donation.objects.get(pk=donation_id)
+        form = EditDonationForm(request.POST)
+        if form.is_valid():
+            pick_up_date = form.cleaned_data['pick_up_date']
+            donation.pick_up_date = pick_up_date
+            donation.is_taken = 1
+            donation.save()
+            return redirect('profile')
+        return render(request, 'edit_donation.html', {'form': form})

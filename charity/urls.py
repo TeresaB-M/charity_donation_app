@@ -27,6 +27,7 @@ from charity_donation_app.views import (
     EditUserProfileView,
     FormSaveView,
     get_institution_by_category,
+    EditDonation,
 )
 
 urlpatterns = [
@@ -41,5 +42,5 @@ urlpatterns = [
     path('EditProfile/', EditUserProfileView.as_view(), name='EditProfile'),
     path('save/', FormSaveView.as_view(), name='form-save'),
     path('get_institution_by_category/', get_institution_by_category, name='get_institution_by_category'),
-
+    path('edit_donation/<int:donation_id>/', EditDonation.as_view(), name='edit-donation'),
 ]

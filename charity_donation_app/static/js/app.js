@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 }
 
+
   class Help {
     constructor($el) {
       this.$el = $el;
@@ -271,25 +272,21 @@ document.addEventListener("DOMContentLoaded", function() {
      *
      * TODO: validation, send data to server
      */
-    // submit(e) {
+     submit(e) {
     //   e.preventDefault();
-    //   this.currentStep++;
-    //   this.updateForm();
-    // }
-  }
-  const form = document.querySelector(".form--steps");
-  if (form !== null) {
-    new FormSteps(form);
+       this.currentStep++;
+       this.updateForm();
+     }
   }
 
-
-  let cbox = document.querySelectorAll(".box");
-  cbox.forEach(box => {
-    box.addEventListener('click', () => box.classList.toggle("red"));
-});
-
+        const form = document.querySelector(".form--steps");
+        if (form !== null) {
+            new FormSteps(form);
+        }
 
 
-});
-
-
+        let cbox = document.querySelectorAll(".box");
+        cbox.forEach(box => {
+            box.addEventListener('click', () => box.classList.toggle("red"));
+        })
+        });

@@ -79,3 +79,9 @@ class EditProfileForm(forms.ModelForm):
 class MyUserCreation(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         fields = ('username', 'first_name', 'last_name')
+
+
+class EditDonationForm(forms.ModelForm):
+    class Meta:
+        model = Donation
+        fields = ['pick_up_date']

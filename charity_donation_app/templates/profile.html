@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
+{% load static %}
+{% block title %}Profil użytkownika{% endblock %}
+
 {% block content %}
     <section class="login-page">
         <h2>Profil użytkownika</h2>
@@ -24,7 +27,8 @@
 
         <div class="steps--container">
              <ul>{% for donation in donations %}
-               <div {% if donation.is_taken == False %}class="steps--item" {% else %}class="steps--item2"{% endif %}>
+               <div {% if donation.is_taken == False %}class="steps--item"
+                    {% else %}class="steps--item2"{% endif %}>
                     <span class="icon icon--hands"></span>
 
                     <h3>Liczba przekazanych worków</h3>
@@ -51,11 +55,13 @@
                     <h3>Status darowizny</h3>
 
 
-                    <p>{% if donation.is_taken == True %} Odebrano<br>
+                    <p>{% if donation.is_taken == True %}  <span style ="color: red"> Odebrano<br></span>
+
                     {% else %} Nieodebrano<br>{% endif %}
-                    <a href="../Donation/{{ donation.id }}/" class="btn">Zmień</a></p>
+                    <a href="/edit_donation/{{ donation.id }}/" class="btn">Zmień</a></p>
                 </div>
                 <br>
+
             {% endfor %}
                  </div>
 

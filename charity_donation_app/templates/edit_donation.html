@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <section class="login-page">
+      <h2>Edycja daru</h2>
+        <div class="help--slides active">
+            <form class="form-group" method="post">
+            {% csrf_token %}
+                {{ form.as_table }}
+                <input type="submit" class="btn btn--without-border active" value="Zmień">
+            </form>
+        </div>
+    </section>
+{% endblock %}
