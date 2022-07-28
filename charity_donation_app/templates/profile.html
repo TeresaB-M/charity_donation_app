@@ -4,6 +4,26 @@
 {% block title %}Profil użytkownika{% endblock %}
 
 {% block content %}
+
+    <style>
+table.center {
+    border-collapse: collapse;
+    border:2px solid #999;
+    margin-left: 25%;
+    margin-right: 25%;
+    font-size: 14px;
+    font-family: sans-serif;
+    min-width: 400px;
+    text-align: center;
+
+}
+table td, table th, table tr{
+    border-collapse: collapse;
+    background-color: #ebebeb;
+    border:1px solid #999;
+    text-align: center;
+}
+</style>
     <section class="login-page">
         <h2>Profil użytkownika</h2>
         <div class="steps--container">
@@ -25,48 +45,40 @@
     <section id="donations">
         <h2>Przekazane dary</h2>
 
-        <div class="steps--container">
-             <ul>{% for donation in donations %}
-               <div {% if donation.is_taken == False %}class="steps--item"
-                    {% else %}class="steps--item2"{% endif %}>
-                    <span class="icon icon--hands"></span>
 
-                    <h3>Liczba przekazanych worków</h3>
-                    <p>{{ donation.quantity }}</p>
-                </div>
-                <div class="steps--item">
-                    <span class="icon icon--arrow"></span>
-                    <h3>Organizacja, której przekazano zbiórkę</h3>
-                    <p>{{ donation.institution.name }}</p>
-                </div>
-                <div class="steps--item">
-                    <span class="icon icon--glasses"></span>
-                    <h3>Rodzaj rzeczy</h3>
-                 <div class="col"><div class="text">
-                    <p>{% for category in donation.categories.all %}{{ category}}, {% endfor %}</p>
-                </div> </div>
-                <div class="steps--item">
-                    <span class="icon icon--courier"></span>
-                    <h3>Data odbioru</h3>
-                    <p>{{ donation.pick_up_date }}</p>
-                </div>
-                <div class="steps--item">
-                    <span class="icon icon--courier"></span>
-                    <h3>Status darowizny</h3>
+    <table class="center">
+            <tr>
+                <th>Liczba przekazanych worków</th>
+                <th>Organizacja, której przekazano zbiórkę</th>
+                <th>Rodzaj rzeczy</th>
+                <th>Data odbioru</th>
+                <th>Status darowizny</th>
+                <th>Zmiana</th>
+            </tr>
 
 
-                    <p>{% if donation.is_taken == True %}  <span style ="color: red"> Odebrano<br></span>
+             {% for donation in donations %}
+               {% if donation.is_taken == False %}
+                    {% else %} {% endif %}
+                 <tr>
+                 <td>{{ donation.quantity }}</td>
+                 <td>{{ donation.institution.name }}</td>
+                <td>
+                    <ul>
+                        {% for category in donation.categories.all %}
+                            <li>{{ category}}</li> {% endfor %}
+                    </ul>
+               </td>
 
-                    {% else %} Nieodebrano<br>{% endif %}
-                    <a href="/edit_donation/{{ donation.id }}/" class="btn">Zmień</a></p>
-                </div>
-                <br>
+               <td>{{ donation.pick_up_date }}</td>
+               <td>{% if donation.is_taken == True %}  <span style ="color: red"> Odebrano</span>
 
+                    {% else %} Nieodebrano<br>{% endif %}</td>
+                    <td><a href="/edit_donation/{{ donation.id }}/" >Zmień</a></td>
+                </tr>
             {% endfor %}
-                 </div>
 
-             </ul>
-        </div>
+    </table>
     </section>
 
 {% endblock %}
