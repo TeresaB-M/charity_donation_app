@@ -73,12 +73,12 @@ def get_institution_by_category(request):
 class FormSaveView(LoginRequiredMixin, View):
 
     def post(self, request):
-        categories = request.POST.get('categories')
+        categories = request.POST.getlist('categories')
         quantity = request.POST.get('bags')
         institution = request.POST.get('organization')
         try:
             organization = Institution.objects.get(id=institution)
-            category = Category.objects.get(id=categories)
+            category = Category.objects.filter(id__in=categories)
         except ObjectDoesNotExist:
             organization = None
             category = None
@@ -92,21 +92,20 @@ class FormSaveView(LoginRequiredMixin, View):
             time = request.POST.get('time')
             comments = request.POST.get('more_info')
             user = request.user.id
-            email = request.user.email
-            donation = Donation.objects.create(quantity=quantity,
-                                               institution_id=institution,
-                                               street=street,
-                                               house_number=house_number,
-                                               city=city,
-                                               zip_code=post,
-                                               phone_number=phone,
-                                               pick_up_date=data,
-                                               pick_up_time=time,
-                                               pick_up_comment=comments,
-                                               user_id=user,
-                                               )
-            donation.categories.set(categories)
-            donation.save()
+            new_donation = Donation.objects.create(quantity=quantity,
+                                                   institution_id=institution,
+                                                   street=street,
+                                                   house_number=house_number,
+                                                   city=city,
+                                                   zip_code=post,
+                                                   phone_number=phone,
+                                                   pick_up_date=data,
+                                                   pick_up_time=time,
+                                                   pick_up_comment=comments,
+                                                   user_id=user, )
+
+            new_donation.categories.add(*categories)
+            new_donation.save()
             return render(request, 'form-save.html', {'quantity': quantity,
                                                       'institution': institution,
                                                       'street': street,
@@ -118,7 +117,7 @@ class FormSaveView(LoginRequiredMixin, View):
                                                       'time': time,
                                                       'comments': comments,
                                                       'organization': organization,
-                                                      'category': category, })
+                                                      'categories': categories, })
 
         return redirect('/form-confirmation/')
 
