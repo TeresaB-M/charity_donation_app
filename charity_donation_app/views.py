@@ -60,12 +60,10 @@ class AddDonationView(LoginRequiredMixin, View):
 
 @login_required(login_url='/login/')
 def get_institution_by_category(request):
-    cat_id = request.GET.getlist('cat_id')
-    if cat_id is not None:
-        categories = Category.objects.filter(pk__in=cat_id)
-        institutions = Institution.objects.filter(categories__in=cat_id).distinct()
-    else:
-        institutions = Institution.objects.all()
+    cat_id = request.GET.getlist('cat_id', [])
+    institutions = Institution.objects.all()
+    for id in cat_id:
+        institutions = institutions.filter(categories__id=id)
 
     return render(request, "api_institution.html", {'institutions': institutions,
                                                     'cat_id': cat_id,
