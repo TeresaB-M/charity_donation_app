@@ -1,9 +1,22 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block title %}Oddam w dobre ręce{% endblock %}
+{% block header %}class="header--main-page"{% endblock %}
+{% block navigation %}{% include 'navi-styles.html' %}{% endblock %}
+
+{% block slogan %}
+<div class="slogan container container--90">
+       <div class="slogan--item">
+          <h1>
+            Zacznij pomagać!<br />
+            Oddaj niechciane rzeczy w zaufane ręce
+          </h1>
+        </div>
+      </div>
+{% endblock %}
 
 {% block content %}
-
-    <section id="stats" class="stats">
+     <section id="stats" class="stats">
       <div class="container container--85">
         <div class="stats--item">
           <em>{{total.quantity__sum}}</em>
@@ -16,9 +29,9 @@
           <h3>Wspartych organizacji</h3>
           <p>Tyle organizacji Nasi Darczyńcy wsparli.</p>
         </div>
-
       </div>
     </section>
+
 
     <section id="steps" class="steps">
       <h2>Wystarczą 4 proste kroki</h2>
@@ -205,3 +218,8 @@
 
      </section>
 {% endblock content%}
+{% block footer %}
+        {% include 'footer-styles.html' %}
+{% endblock %}
+
+{% block script %}<script src="{% static 'js/app.js' %}"></script>{% endblock %}

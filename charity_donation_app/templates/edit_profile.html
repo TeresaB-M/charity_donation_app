@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+
+{% block title %}Profil użytkownika{% endblock %}
+{% block header %}{% endblock %}
+{% block navigation %}{% include 'navi-styles.html' %}{% endblock %}
+
 {% block content %}
     <section class="login-page">
         <h2>Podaj dane, które chcesz edytować</h2>
@@ -15,3 +20,4 @@
         </form>
     </section>
 {% endblock %}
+{% block footer %}{% include 'footer-styles.html' %}{% endblock %}

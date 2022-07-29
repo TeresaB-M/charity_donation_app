@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load static%}
+{% block title %}Zaloguj się{% endblock %}
+{% block navigation %}{% include 'navi-styles.html' %}{% endblock %}
 
 {% block content %}
   <body>
@@ -32,6 +34,5 @@
             </div>
       </form>
     </section>
-
-
 {% endblock %}
+{% block footer %}{% include 'footer-styles.html' %}{% endblock %}

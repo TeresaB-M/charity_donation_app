@@ -1,12 +1,20 @@
 {% extends 'base.html' %}
 {% load static%}
+{% block title %}Dziękujemy!{% endblock %}
+{% block header %}class="header--main-page"{% endblock %}
+{% block navigation %}{% include 'navi-styles.html' %}{% endblock %}
 
-{% block content %}
+{% block slogan %}
 
     <div class="slogan container container--90">
           <h2>
-            Dziękujemy za przesłanie formularza
+            Dziękujemy za przesłanie formularza.
+              Na emaila prześlemy wszelkie informacje o odbiorze.
           </h2>
       </div>
 
 {% endblock %}
+{% block footer %}
+{% include 'footer-styles.html' %}
+{% endblock %}
+{% block script %}<script src="{% static 'js/app.js' %}"></script>{% endblock %}

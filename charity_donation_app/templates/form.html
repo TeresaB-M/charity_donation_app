@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
 {% load static%}
 
-{% block content %}
-    <header id="add-donation" class="header--form-page">
+{% block title %}Oddaj rzeczy{% endblock %}
+{% block header %}class="header--form-page"{% endblock %}
+{% block navigation %}{% include 'navi-styles.html' %}{% endblock %}
+{% block slogan %}
+
+    <!--header id="add-donation" class="header--form-page"-->
         <div class="slogan container container--90">
         <div class="slogan--item">
           <h1>
@@ -29,8 +33,9 @@
           </div>
         </div>
       </div>
-    </header>
+{% endblock %}
 
+    {% block content %}
     <section id="addDonation" class="form--steps">
       <div class="form--steps-instructions">
         <div class="form--steps-container">
@@ -164,7 +169,10 @@
             </div>
           </div>
 
+
         </form>
           </div>
     </section>
 {% endblock %}
+
+{% block script %}<script src="{% static 'js/app.js' %}"></script>{% endblock %}
