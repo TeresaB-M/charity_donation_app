@@ -34,8 +34,12 @@ class Institution(models.Model):
     type = models.IntegerField(choices=TYPE_INSTITUTION, default=1, verbose_name='Rodzaj instytucji')
     categories = models.ManyToManyField(Category, verbose_name='Kategorie')
 
+    @property
+    def main_name(self):
+        return "{} {}".format(self.name, self.categories)
+
     def __str__(self):
-        return self.name
+        return self.main_name
 
 
 class Donation(models.Model):
@@ -57,7 +61,7 @@ class Donation(models.Model):
 
     @property
     def main_name(self):
-        return "{}".format(self.institution)
+        return "{} {}".format(self.institution, self.categories)
 
     def __str__(self):
         return self.main_name

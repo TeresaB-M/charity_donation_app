@@ -117,7 +117,7 @@ class FormSaveView(LoginRequiredMixin, View):
                                                       'time': time,
                                                       'comments': comments,
                                                       'organization': organization,
-                                                      'categories': categories, })
+                                                      'category': category, })
 
         return redirect('/form-confirmation/')
 

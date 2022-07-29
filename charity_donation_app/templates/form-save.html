@@ -16,7 +16,9 @@
                 <ul>
                   <li>
                     <span class="icon icon-bag"></span>
-                    <span class="summary--text"> {{quantity}} worków z {{ category }}</span>
+                    <span class="summary--text"> {{quantity}} worków z {% for c in category %}
+                        {{ c.name }}, {% endfor %}</span>
+
                   </li>
 
                   <li>
