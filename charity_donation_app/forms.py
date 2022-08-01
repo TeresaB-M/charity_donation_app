@@ -14,18 +14,17 @@ class RegisterForm(forms.ModelForm):
     error_messages = {
         'password_mismatch': "The two password fields didn't match.",
     }
-    password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
-    password2 = forms.CharField(label="Password confirmation",
-                                widget=forms.PasswordInput,
-                                help_text="Enter the same password as above, for verification.")
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'hasło'}))
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':
+                                'potwierdź hasło'}),)
 
     class Meta:
         model = User
         fields = ["first_name", "last_name", "email"]
         widgets = {
-            "email": forms.EmailInput(attrs={'placeholder': 'E-mail'}),
-            "last_name": forms.TextInput(attrs={'placeholder': 'Nazwisko'}),
-            "first_name": forms.TextInput(attrs={'placeholder': 'Imię'}),
+            "email": forms.EmailInput(attrs={'placeholder': 'email'}),
+            "last_name": forms.TextInput(attrs={'placeholder': 'nazwisko'}),
+            "first_name": forms.TextInput(attrs={'placeholder': 'imię'}),
         }
 
     def clean_password2(self):
@@ -49,8 +48,8 @@ class RegisterForm(forms.ModelForm):
 class LoginForm(forms.Form):
     """ Create login form"""
 
-    login = forms.CharField(label="Email")
-    password = forms.CharField(label="Insert password", widget=forms.PasswordInput)
+    login = forms.CharField(label="email", widget=forms.PasswordInput(attrs={'placeholder': 'email'}))
+    password = forms.CharField(label="hasło", widget=forms.PasswordInput(attrs={'placeholder': 'hasło'}))
 
 
 class DonationModelForm(forms.ModelForm):
