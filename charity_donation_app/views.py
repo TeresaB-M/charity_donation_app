@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from charity_donation_app.models import Donation, Institution, Category
 from django.db.models import Sum
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import send_mail
 
 
 class LandingPageView(View):
@@ -92,6 +93,7 @@ class FormSaveView(LoginRequiredMixin, View):
             time = request.POST.get('time')
             comments = request.POST.get('more_info')
             user = request.user.id
+            email = request.user.email
             new_donation = Donation.objects.create(quantity=quantity,
                                                    institution_id=institution,
                                                    street=street,
@@ -106,6 +108,21 @@ class FormSaveView(LoginRequiredMixin, View):
 
             new_donation.categories.add(*categories)
             new_donation.save()
+
+            send_mail(subject="Donation confirmation",
+                      message=f"""Twoja donacja:
+                                        Ilość worków: {quantity} z {category}
+                                        Organizacja wspierana {institution}
+                                        Adres odbioru:
+                                        {street}
+                                        {city} {post}
+                                        Data odbioru:
+                                        {data} o godzinie {time}
+                                        Dziękujemy, i pamiętaj dobre uczynki zawsze wracają !""",
+                      from_email='donation-confirmation@example.com',
+                      recipient_list=[email]
+                      )
+
             return render(request, 'form-save.html', {'quantity': quantity,
                                                       'institution': institution,
                                                       'street': street,
